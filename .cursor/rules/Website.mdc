@@ -1,0 +1,15 @@
+---
+alwaysApply: true
+---
+
+- This is a Next.js 15 project using the App Router, TypeScript, and Tailwind CSS
+- Always use the app/ directory structure, never pages/
+- Never use inline styles, always use Tailwind classes
+- Brand colors are #315798 (primary blue) and #7D95E0 (light blue), background is #0a0f1a
+- All components go in app/components/
+- All pages go in app/ as page.tsx files
+- Never install unnecessary dependencies, ask first before adding any new package
+- Always use TypeScript, never plain JavaScript
+- Keep components small and single-purpose
+- The site is dark mode only, never add light mode styles
+- Never touch globals.css unless explicitly asked
