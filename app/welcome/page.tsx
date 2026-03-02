@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
 import ConstellationBackground from "@/app/components/ConstellationBackground";
@@ -35,8 +37,8 @@ export default function WelcomePage() {
         <Navbar />
 
         <div className="relative z-10 flex flex-col items-center text-center max-w-xl mx-auto pt-40">
-          <a href="/" className="flex items-center gap-2 mb-16 hover:opacity-90 transition-opacity">
-            <img
+          <Link href="/" className="flex items-center gap-2 mb-16 hover:opacity-90 transition-opacity">
+            <Image
               src="/avera-logo.png"
               alt="Avera"
               width={48}
@@ -46,7 +48,7 @@ export default function WelcomePage() {
             <span className="font-logo text-white font-semibold text-xl tracking-[0.15em] uppercase">
               AVERA
             </span>
-          </a>
+          </Link>
 
           <h1 className="text-white text-4xl md:text-5xl font-bold mb-6">
             You&apos;re on the list.
