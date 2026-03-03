@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const STAGGER_DELAY_MS = 200;
-const COUNT_DURATION_MS = 1500;
+const COUNT_DURATION_MS = 2500;
 
 const STATS = [
   {
@@ -55,7 +55,8 @@ function useCountUp(target: number, isActive: boolean, startTime: number) {
     const startAnim = (timestamp: number) => {
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / COUNT_DURATION_MS, 1);
-      const current = Math.floor(progress * target);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
       setValue(current);
 
       if (progress < 1) {
@@ -149,7 +150,7 @@ export default function ScrollytellingSection() {
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-transparent"
+      className="min-h-screen flex flex-col items-center justify-center px-6 pt-48 pb-24 bg-transparent"
     >
       <p
         className={`text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4 transition-opacity duration-500 ease-out ${

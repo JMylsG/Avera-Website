@@ -158,20 +158,12 @@ export default function AboutPage() {
                   &ldquo;The gap is architectural. The solution is
                   infrastructure. On-Premise. No Compromise.&rdquo;
                 </p>
-                <div className="flex flex-col sm:flex-row items-center gap-5">
-                  <a
-                    href="/Avera_Document.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#315798] hover:bg-[#7D95E0] text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300"
-                  >
-                    Read the White Paper
-                  </a>
+                <div className="flex justify-center">
                   <Link
                     href="/timeline"
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
-                    See the Roadmap
+                    See the Roadmap →
                   </Link>
                 </div>
               </div>

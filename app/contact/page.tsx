@@ -117,18 +117,6 @@ export default function ContactPage() {
 
                   <div className="bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-6 flex flex-col gap-1">
                     <p className="text-[#7D95E0] text-xs font-semibold tracking-widest uppercase">
-                      Phone
-                    </p>
-                    <a
-                      href="tel:+14804558451"
-                      className="text-white text-sm hover:text-[#7D95E0] transition-colors"
-                    >
-                      +1 (480) 455-8451
-                    </a>
-                  </div>
-
-                  <div className="bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-6 flex flex-col gap-1">
-                    <p className="text-[#7D95E0] text-xs font-semibold tracking-widest uppercase">
                       Response Time
                     </p>
                     <p className="text-white text-sm">Within 24 hours</p>

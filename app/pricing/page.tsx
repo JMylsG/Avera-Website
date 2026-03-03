@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "../components/Navbar";
 import ConstellationBackground from "../components/ConstellationBackground";
 import Footer from "../components/Footer";
@@ -7,22 +8,16 @@ const PRICING_TIERS = [
     tier: "Tier I",
     name: "Avera One",
     deviceRange: "1 – 150 devices",
-    price: "$9,000",
-    period: "per year",
   },
   {
     tier: "Tier II",
     name: "Avera Plus",
     deviceRange: "151 – 500 devices",
-    price: "$18,000",
-    period: "per year",
   },
   {
     tier: "Tier III",
     name: "Avera Pro",
     deviceRange: "501 – 1,000 devices",
-    price: "$27,000",
-    period: "per year",
   },
 ];
 
@@ -44,6 +39,55 @@ export default function PricingPage() {
           </p>
         </section>
 
+        {/* Section 1.5 — Pilot Process */}
+        <section className="pb-24 px-6 max-w-5xl mx-auto">
+          <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-12 text-center">
+            The Pilot Process
+          </p>
+          <div className="flex flex-col md:flex-row md:items-stretch gap-8 md:gap-0">
+            {/* Step 1 */}
+            <div className="flex-1 bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-8 flex flex-col">
+              <p className="text-[#7D95E0] text-sm font-mono mb-4">01</p>
+              <h3 className="text-white text-lg font-semibold mb-3">Free 30-Day Pilot</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Deploy Avera on your network at no cost under a written pilot agreement. No commitment required.
+              </p>
+            </div>
+
+            {/* Connector */}
+            <div className="hidden md:flex items-center justify-center shrink-0 w-12">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[#315798]/40">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            {/* Step 2 */}
+            <div className="flex-1 bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-8 flex flex-col">
+              <p className="text-[#7D95E0] text-sm font-mono mb-4">02</p>
+              <h3 className="text-white text-lg font-semibold mb-3">Review & Feedback</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                We work with you through your first compliance cycle. You validate the evidence, we refine the implementation.
+              </p>
+            </div>
+
+            {/* Connector */}
+            <div className="hidden md:flex items-center justify-center shrink-0 w-12">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[#315798]/40">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            {/* Step 3 */}
+            <div className="flex-1 bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-8 flex flex-col">
+              <p className="text-[#7D95E0] text-sm font-mono mb-4">03</p>
+              <h3 className="text-white text-lg font-semibold mb-3">Annual Subscription</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                If it works for you, resubscribe annually at founding partner pricing based on your device count.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Section 2 — Tier Structure */}
         <section className="py-24 px-6 max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -58,11 +102,12 @@ export default function PricingPage() {
                 <h2 className="text-white text-2xl font-bold">{tier.name}</h2>
                 <p className="text-gray-400 text-sm mt-2">{tier.deviceRange}</p>
                 <div className="border-t border-white/5 my-6" />
-                <p className="text-white text-4xl font-bold">{tier.price}</p>
-                <p className="text-gray-400 text-sm">{tier.period}</p>
-                <button className="border border-[#315798] text-white hover:bg-[#315798] rounded-full px-6 py-3 text-sm transition-colors w-full text-center mt-8">
-                  Request Access
-                </button>
+                <p className="text-[#7D95E0] text-sm mb-8">Pilot pricing available</p>
+                <Link href="/apply" className="block w-full mt-6">
+                  <button className="w-full border border-[#315798] bg-transparent text-white hover:bg-[#315798] rounded-full px-6 py-3 text-sm transition-colors text-center cursor-pointer">
+                    Request Access
+                  </button>
+                </Link>
               </div>
             ))}
           </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase";
+import ConstellationBackground from "../components/ConstellationBackground";
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -50,8 +51,10 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f1a] flex flex-col items-center justify-center px-6">
-      <Link href="/" className="flex items-center gap-2 mb-16 hover:opacity-90 transition-opacity">
+    <div className="min-h-screen bg-[#0a0f1a] relative">
+      <ConstellationBackground />
+      <div className="relative z-[1] flex flex-col items-center justify-center px-6 min-h-screen">
+        <Link href="/" className="flex items-center gap-2 mb-16 hover:opacity-90 transition-opacity">
         <Image
           src="/avera-logo.png"
           alt="Avera"
@@ -64,20 +67,21 @@ export default function SignInPage() {
         </span>
       </Link>
 
-      <h1 className="text-white text-4xl md:text-5xl font-bold mb-4 text-center">
-        Sign in to Avera.
-      </h1>
-      <p className="text-gray-400 text-lg mb-12 text-center max-w-md">
-        Track your registration and stay updated on availability.
-      </p>
+        <h1 className="text-white text-4xl md:text-5xl font-bold mb-4 text-center">
+          Sign in to Avera.
+        </h1>
+        <p className="text-gray-400 text-lg mb-12 text-center max-w-md">
+          Track your registration and stay updated on availability.
+        </p>
 
-      <button
-        onClick={handleGoogleSignIn}
-        className="flex items-center gap-3 bg-white text-gray-900 rounded-full px-8 py-4 hover:bg-gray-100 transition-colors font-medium"
-      >
-        <GoogleIcon />
-        Continue with Google
-      </button>
+        <button
+          onClick={handleGoogleSignIn}
+          className="flex items-center gap-3 bg-white text-gray-900 rounded-full px-8 py-4 hover:bg-gray-100 transition-colors font-medium"
+        >
+          <GoogleIcon />
+          Continue with Google
+        </button>
+      </div>
     </div>
   );
 }

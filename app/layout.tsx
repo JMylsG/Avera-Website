@@ -20,6 +20,11 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: "Avera Systems",
+  icons: {
+    icon: "/avera-logo.png",
+    shortcut: "/avera-logo.png",
+    apple: "/avera-logo.png",
+  },
   description:
     "Continuous, defensible device history. Without reconstruction.",
   openGraph: {

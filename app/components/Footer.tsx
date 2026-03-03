@@ -78,12 +78,12 @@ export default function Footer() {
               <Link href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Contact
               </Link>
-              <span className="text-gray-400 text-sm">
+              <Link href="/privacy-policy" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Privacy Policy
-              </span>
-              <span className="text-gray-400 text-sm">
+              </Link>
+              <Link href="/terms-of-service" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Terms of Service
-              </span>
+              </Link>
             </nav>
           </div>
         </div>

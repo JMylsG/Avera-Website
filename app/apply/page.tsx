@@ -17,9 +17,14 @@ export default function ApplyPage() {
   const [deviceAnswer, setDeviceAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [alreadyApplied, setAlreadyApplied] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (typeof window !== "undefined" && localStorage.getItem("avera_applied") === "true") {
+      setAlreadyApplied(true);
+    }
+
     const supabase = createClient();
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
@@ -44,6 +49,7 @@ export default function ApplyPage() {
       });
 
       if (res.ok) {
+        localStorage.setItem("avera_applied", "true");
         setSubmitted(true);
       } else {
         setError("Something went wrong. Please try again.");
@@ -60,10 +66,17 @@ export default function ApplyPage() {
   return (
     <div className="min-h-screen bg-[#0a0f1a]">
       <ConstellationBackground />
-      <div className="relative z-[1]">
+      <div className="relative z-[1] flex flex-col min-h-screen">
         <Navbar />
-        <main className="pt-24 pb-16 px-6">
-          <div className="mx-auto max-w-xl">
+        <main className="pt-24 pb-16 px-6 flex-1 flex flex-col">
+          {alreadyApplied ? (
+            <div className="flex-1 flex items-center justify-center">
+              <p className="text-[#7D95E0] text-base text-center">
+                You&apos;ve already applied. We&apos;ll be in touch soon.
+              </p>
+            </div>
+          ) : (
+          <div className="mx-auto max-w-xl w-full">
             <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
               Early Deployment Cohort
             </p>
@@ -115,6 +128,7 @@ export default function ApplyPage() {
               </form>
             )}
           </div>
+          )}
         </main>
         <Footer />
       </div>
