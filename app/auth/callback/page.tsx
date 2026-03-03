@@ -26,6 +26,12 @@ export default function AuthCallbackPage() {
           console.error("exchangeCodeForSession failed:", error.message);
           return;
         }
+        const redirectAfterLogin = sessionStorage.getItem("redirectAfterLogin");
+        if (redirectAfterLogin) {
+          sessionStorage.removeItem("redirectAfterLogin");
+          router.replace(redirectAfterLogin);
+          return;
+        }
         router.replace("/");
       })
       .catch((err) => {

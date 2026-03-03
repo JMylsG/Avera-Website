@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: "/product", label: "Product" },
   { href: "/why-avera", label: "Why Avera" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/timeline", label: "Timeline" },
 ];
 
 export default function Navbar() {

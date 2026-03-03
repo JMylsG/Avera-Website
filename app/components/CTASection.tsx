@@ -87,7 +87,7 @@ export default function CTASection() {
             Request a Demo
           </Link>
           <a
-            href="/learn"
+            href="/timeline"
             className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center gap-2"
           >
             Learn More <span aria-hidden>→</span>

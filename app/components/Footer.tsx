@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="w-full bg-[#080d14] border-t border-white/5 py-16">
@@ -49,18 +51,18 @@ export default function Footer() {
               Product
             </p>
             <nav className="flex flex-col gap-3">
-              <a href="/how-it-works" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <Link href="/how-it-works" className="text-gray-400 hover:text-white text-sm transition-colors">
                 How It Works
-              </a>
-              <a href="/why-avera" className="text-gray-400 hover:text-white text-sm transition-colors">
+              </Link>
+              <Link href="/why-avera" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Why Avera
-              </a>
-              <a href="/pricing" className="text-gray-400 hover:text-white text-sm transition-colors">
+              </Link>
+              <Link href="/pricing" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Pricing
-              </a>
-              <a href="/demo" className="text-gray-400 hover:text-white text-sm transition-colors">
+              </Link>
+              <Link href="/demo" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Request a Demo
-              </a>
+              </Link>
             </nav>
           </div>
 
@@ -70,18 +72,18 @@ export default function Footer() {
               Company
             </p>
             <nav className="flex flex-col gap-3">
-              <a href="/about" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <Link href="/about" className="text-gray-400 hover:text-white text-sm transition-colors">
                 About
-              </a>
-              <a href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors">
+              </Link>
+              <Link href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Contact
-              </a>
-              <a href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">
+              </Link>
+              <span className="text-gray-400 text-sm">
                 Privacy Policy
-              </a>
-              <a href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">
+              </span>
+              <span className="text-gray-400 text-sm">
                 Terms of Service
-              </a>
+              </span>
             </nav>
           </div>
         </div>
