@@ -129,13 +129,10 @@ export default function PricingPage() {
             Founding Deployment Cohort
           </h2>
           <p className="text-gray-400 text-base leading-relaxed mt-6">
-            Avera is currently onboarding a limited number of regulated
-            environments under an early deployment program.
-          </p>
-          <p className="text-gray-400 text-base leading-relaxed mt-4">
-            Participating organizations receive 50% annual pricing in exchange
-            for structured implementation feedback and real-world validation
-            across audit cycles.
+            Pilot deployments are free for 30 days under a written agreement.
+            Organizations that continue are offered founding partner pricing,
+            determined by device count and locked in for the life of the
+            relationship.
           </p>
           <p className="text-gray-400 text-sm mt-4">
             To confirm eligibility and begin evaluation:

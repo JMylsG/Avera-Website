@@ -40,14 +40,14 @@ const STAGES: Stage[] = [
     label: "Early Deployment Cohort",
     timing: "Late March 2026",
     subtext:
-      "30-day pilot program. Limited seats. Early partners receive 50% annual pricing.",
+      "30-day free pilot program. Limited seats. Early partners receive founding partner pricing based on device count.",
     cta: true,
   },
   {
     status: "upcoming",
     side: "right",
     label: "Pre-Seed Raise",
-    timing: "Early Q2 2026",
+    timing: "Mid Q2 2026",
     subtext:
       "Raising to fund v2.0 development and expand deployment capacity.",
   },
@@ -55,7 +55,7 @@ const STAGES: Stage[] = [
     status: "upcoming",
     side: "left",
     label: "Avera v2.0 + Node",
-    timing: "Late Q3 2026",
+    timing: "Early Q4 2026",
     subtext:
       "Hardware node integration. Device fingerprinting accuracy increases from 80–85% to 97%+.",
   },
