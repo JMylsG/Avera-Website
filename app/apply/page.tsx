@@ -84,7 +84,7 @@ export default function ApplyPage() {
               You&apos;re almost in.
             </h1>
             <p className="text-gray-400 text-sm mb-10">
-              Limited seats. 30-day pilot. 50% annual pricing for founding partners.
+              Limited seats. 30-day free pilot program. Early partners receive founding partner pricing based on device count.
             </p>
 
             {submitted ? (
