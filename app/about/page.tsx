@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 const PRINCIPLES = [
   {
     title: "Local-First",
-    body: "Your compliance data never leaves your network. No cloud dependency. No outbound telemetry. Fully air-gapped capable.",
+    body: "Your compliance data never leaves your network. No cloud storage. No outbound telemetry. Fully air-gapped capable.",
   },
   {
     title: "Evidentiary by Design",

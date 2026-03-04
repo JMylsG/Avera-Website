@@ -138,7 +138,40 @@ export default function WhyAveraPage() {
           </p>
         </section>
 
-        {/* Section 4: Chronic vs Acute Pain */}
+        {/* Section 4: Authority by Design */}
+        <section className="py-24 px-6 max-w-3xl mx-auto text-center">
+          <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
+            Authority by Design
+          </p>
+          <h2 className="text-white text-3xl font-bold mb-6">
+            You are the Authority. Not your vendor. Not your IT team.
+          </h2>
+          <p className="text-gray-400 text-base leading-relaxed mt-4">
+            Most software hands the master keys to the vendor or the IT team
+            that installs it. Avera is built the opposite way. The clinic holds
+            the Authority role. That is not a permission level. It is an
+            architectural position.
+          </p>
+          <p className="text-gray-400 text-base leading-relaxed mt-4">
+            Avera supports two additional access modes. Avera Console is for
+            local viewing: on-site staff or an IT team physically present at
+            the clinic. Avera Connections is for remote access: MSPs managing
+            from a distance. Both require the clinic&apos;s authorization to
+            activate. Both can be revoked instantly.
+          </p>
+          <p className="text-gray-400 text-base leading-relaxed mt-4">
+            If your IT relationship changes, you do not call anyone. You do
+            not file a ticket. You open your Authority dashboard and revoke
+            access. It takes seconds. Your compliance record stays intact,
+            stays on your network, and stays yours.
+          </p>
+          <p className="text-white text-2xl font-light italic mt-12">
+            The clinic grants access. The clinic revokes it.
+            That is what it means to be the Authority.
+          </p>
+        </section>
+
+        {/* Section 5: Chronic vs Acute Pain */}
         <section className="py-24 px-6 max-w-3xl mx-auto text-center">
           <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
             Why It Persists

@@ -63,6 +63,9 @@ export default function Footer() {
               <Link href="/demo" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Request a Demo
               </Link>
+              <Link href="/faq" className="text-gray-400 hover:text-white text-sm transition-colors">
+                FAQ
+              </Link>
             </nav>
           </div>
 
@@ -95,7 +98,7 @@ export default function Footer() {
             © 2026 Avera Systems. All rights reserved.
           </p>
           <p className="text-[#7D95E0] text-sm italic">
-            Zero cloud. Zero exposure. On-premise. No compromise.
+            Zero cloud storage. Zero exposure. On-premise. No compromise.
           </p>
         </div>
       </div>

@@ -54,8 +54,16 @@ const STAGES: Stage[] = [
   {
     status: "upcoming",
     side: "left",
-    label: "Avera v2.0 + Node",
-    timing: "Early Q4 2026",
+    label: "Avera v1.5 + Relay",
+    timing: "Late Q3 2026",
+    subtext:
+      "MSP Dashboard and remote relay introduced. MSPs gain secure remote visibility into local compliance records. Clinic data remains on-premise.",
+  },
+  {
+    status: "upcoming",
+    side: "right",
+    label: "Avera v2.0.0 + Node",
+    timing: "Late Q1 2027",
     subtext:
       "Hardware node integration. Device fingerprinting accuracy increases from 80–85% to 97%+.",
   },

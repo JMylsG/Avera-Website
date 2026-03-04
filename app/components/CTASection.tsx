@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const TRUST_SIGNALS = [
-  "Zero cloud dependency",
+  "Zero cloud storage",
   "Local-first architecture",
   "Audit-ready in 60 seconds",
 ];

@@ -22,7 +22,11 @@ const GUARANTEE_CARDS = [
   },
   {
     title: "Local-First Operation",
-    body: "Avera operates entirely within the customer network. No compliance data is transmitted externally. No cloud dependency exists for core functions. The system remains fully operational in air-gapped environments.",
+    body: "Avera operates entirely within the customer network. No compliance data is transmitted externally. No cloud storage exists for core functions. The system remains fully operational in air-gapped environments.",
+  },
+  {
+    title: "Integrated Approval Workflow",
+    body: "Device presence and device authorization are two different records. Every approval decision is logged as an immutable event, separate from technical observation. Auditors see not just what was on the network, but what was sanctioned to be there.",
   },
 ];
 
