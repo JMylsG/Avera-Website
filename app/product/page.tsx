@@ -18,7 +18,7 @@ const GUARANTEE_CARDS = [
   },
   {
     title: "Explainable Classification",
-    body: "Every device identification decision is documented in human-readable form. Confidence levels, signal sources, and alternative interpretations are preserved alongside the classification. Auditors can review the reasoning — not just the conclusion.",
+    body: "Every device identification decision is documented in human-readable form. Confidence levels, signal sources, and alternative interpretations are preserved alongside the classification. Auditors can review the reasoning, not just the conclusion.",
   },
   {
     title: "Local-First Operation",
@@ -28,6 +28,14 @@ const GUARANTEE_CARDS = [
     title: "Integrated Approval Workflow",
     body: "Device presence and device authorization are two different records. Every approval decision is logged as an immutable event, separate from technical observation. Auditors see not just what was on the network, but what was sanctioned to be there.",
   },
+  {
+    title: "Authority by Design",
+    body: "The clinic holds the Authority role. Not the vendor. Not the IT team. Access for on-site staff and remote MSPs requires the clinic's authorization. Both can be revoked instantly from the Authority dashboard. No calls. No tickets.",
+  },
+  {
+    title: "Human-Anchored Intelligence",
+    body: "Avera observes, recognizes patterns, and surfaces suggestions. Every approval is logged as a human action. When the system is confident enough to suggest a standing rule, it asks. You decide. Your authority creates it.",
+  },
 ];
 
 const BEFORE_ITEMS = [
@@ -36,6 +44,8 @@ const BEFORE_ITEMS = [
   "Fragmented logs assembled under investigation pressure",
   "Manual reconciliation across disconnected tools",
   "Evidence that resets between intervals",
+  "Black-box automation making decisions you cannot audit",
+  "Vendor or IT team holds the master keys to your own system",
 ];
 
 const AFTER_ITEMS = [
@@ -44,6 +54,8 @@ const AFTER_ITEMS = [
   "Ongoing approval workflow as devices are observed",
   "Instant historical query without reconstruction",
   "Compliance record that persists between audits",
+  "Every decision logged as a human action, fully explainable",
+  "The clinic holds the Authority. Access revoked in seconds.",
 ];
 
 const EXAMPLE_QUERIES = [
