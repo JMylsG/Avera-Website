@@ -38,7 +38,7 @@ const STAGES: Stage[] = [
     status: "upcoming",
     side: "left",
     label: "Early Deployment Cohort",
-    timing: "Late March 2026",
+    timing: "Early April 2026",
     subtext:
       "30-day free pilot program. Limited seats. Early partners receive founding partner pricing based on device count.",
     cta: true,
