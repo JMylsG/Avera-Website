@@ -55,7 +55,7 @@ const STAGES: Stage[] = [
     status: "upcoming",
     side: "left",
     label: "Avera v1.5.0 + Relay",
-    timing: "Early Q2 2027",
+    timing: "Mid Q1 2027",
     subtext:
       "MSP Dashboard and remote relay introduced. MSPs gain secure remote visibility into local compliance records. Clinic data remains on-premise.",
   },
