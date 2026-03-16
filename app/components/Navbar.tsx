@@ -53,7 +53,7 @@ export default function Navbar() {
   if (loading) return null;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-md border-b border-white/5">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0f1a]/80 backdrop-blur-md border-b border-[#D4A791]/40">
       <div className="flex items-center justify-between px-8 py-5">
 
         {/* Logo */}
@@ -80,12 +80,12 @@ export default function Navbar() {
                 href={href}
                 className={`text-sm transition-colors pb-0.5 ${
                   isActive
-                    ? "text-white border-b border-[#7D95E0]"
+                    ? "text-white border-b border-[#D4A791]"
                     : "text-gray-400 hover:text-white"
                 }`}
                 style={
                   isActive
-                    ? { textShadow: "0 0 12px rgba(125, 149, 224, 0.8)" }
+                    ? { textShadow: "0 0 12px rgba(212, 167, 145, 0.7)" }
                     : undefined
                 }
               >
@@ -121,7 +121,7 @@ export default function Navbar() {
                 </a>
                 <a
                   href="/signin"
-                  className="bg-[#315798] hover:bg-[#7D95E0] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-300"
+                  className="border border-transparent bg-[#D4A791] text-[#0a0f1a] text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-300 hover:border-[#D4A791]/40 hover:bg-[#D4A791]/90"
                 >
                   Sign Up
                 </a>
@@ -162,7 +162,7 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setMenuOpen(false)}
                 className={`text-sm transition-colors ${
-                  isActive ? "text-[#7D95E0] font-medium" : "text-gray-400 hover:text-white"
+                  isActive ? "text-[#D4A791] font-medium" : "text-gray-400 hover:text-white"
                 }`}
               >
                 {label}
@@ -194,7 +194,7 @@ export default function Navbar() {
                 <a
                   href="/signin"
                   onClick={() => setMenuOpen(false)}
-                  className="bg-[#315798] hover:bg-[#7D95E0] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-300 text-center"
+                  className="border border-transparent bg-[#D4A791] text-[#0a0f1a] text-sm font-semibold px-5 py-2.5 rounded-full transition-colors duration-300 text-center hover:border-[#D4A791]/40 hover:bg-[#D4A791]/90"
                 >
                   Sign Up
                 </a>

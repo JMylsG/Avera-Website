@@ -21,9 +21,15 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Avera Systems",
   icons: {
-    icon: "/avera-logo.png",
-    shortcut: "/avera-logo.png",
-    apple: "/avera-logo.png",
+    icon: [
+      { url: '/Avera/favicon.ico' },
+      { url: '/Avera/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/Avera/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/Avera/apple-touch-icon.png',
+    other: [
+      { rel: 'manifest', url: '/Avera/site.webmanifest' },
+    ],
   },
   description:
     "Continuous, defensible device history. Without reconstruction.",

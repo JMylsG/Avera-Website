@@ -58,7 +58,7 @@ export default function BeforeAfterSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl mx-auto">
         {/* Before Card */}
         <div
-          className="rounded-2xl border border-rose-900/30 bg-[#1a0f0f] p-6 md:p-8 text-left transition-all duration-700 ease-out"
+          className="rounded-2xl border border-[rgba(239,68,68,0.15)] bg-[#0d0a0a] p-6 md:p-8 text-left transition-all duration-700 ease-out"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateX(0)" : "translateX(-80px)",
@@ -67,7 +67,11 @@ export default function BeforeAfterSection() {
           <h3 className="text-rose-400 text-lg font-semibold mb-6">Before</h3>
           <ul className="space-y-5 md:space-y-4">
             {BEFORE_ITEMS.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-gray-300 text-sm md:text-base">
+              <li
+                key={item}
+                className="flex items-start gap-3 text-sm md:text-base"
+                style={{ color: "rgba(255,255,255,0.5)" }}
+              >
                 <span className="text-rose-500 mt-0.5 flex-shrink-0" aria-hidden>
                   ✕
                 </span>
@@ -79,18 +83,25 @@ export default function BeforeAfterSection() {
 
         {/* After Card */}
         <div
-          className="rounded-2xl border border-[#7D95E0]/20 bg-[#0f1a2a] p-6 md:p-8 text-left transition-all duration-700 ease-out"
+          className="rounded-2xl border border-[rgba(184,135,111,0.35)] bg-[#1a120e] p-6 md:p-8 text-left transition-all duration-700 ease-out"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateX(0)" : "translateX(80px)",
           }}
         >
-          <h3 className="text-[#7D95E0] text-lg font-semibold mb-6">After</h3>
+          <h3 className="text-lg font-semibold mb-6" style={{ color: "#D4A791" }}>
+            After
+          </h3>
           <ul className="space-y-5 md:space-y-4">
             {AFTER_ITEMS.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-gray-300 text-sm md:text-base">
+              <li
+                key={item}
+                className="flex items-start gap-3 text-sm md:text-base"
+                style={{ color: "rgba(255,255,255,0.55)" }}
+              >
                 <span
-                  className="text-[#7D95E0] mt-0.5 flex-shrink-0"
+                  className="mt-0.5 flex-shrink-0"
+                  style={{ color: "#D4A791" }}
                   aria-hidden
                 >
                   ✓

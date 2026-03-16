@@ -94,8 +94,10 @@ function StatCard({
     return `${stat.prefix}${formatted}${stat.suffix}`;
   };
 
-  const numberColor = stat.highlight ? "text-[#7D95E0]" : "text-white";
-  const labelColor = stat.highlight ? "text-[#7D95E0]" : "text-gray-400";
+  const numberStyle = stat.highlight ? { color: "#D4A791" } : {};
+  const labelStyle = stat.highlight
+    ? { color: "rgba(212,167,145,0.7)" }
+    : {};
 
   return (
     <div
@@ -106,10 +108,18 @@ function StatCard({
         transitionDelay: isVisible ? `${index * STAGGER_DELAY_MS}ms` : "0ms",
       }}
     >
-      <p className={`text-6xl md:text-7xl font-bold leading-none tracking-tight ${numberColor}`}>
+      <p
+        className={`text-6xl md:text-7xl font-bold leading-none tracking-tight ${stat.highlight ? "" : "text-white"}`}
+        style={numberStyle}
+      >
         {formatNumber()}
       </p>
-      <p className={`text-sm mt-2 max-w-xs ${labelColor}`}>{stat.label}</p>
+      <p
+        className={`text-sm mt-2 max-w-xs ${stat.highlight ? "" : "text-gray-400"}`}
+        style={labelStyle}
+      >
+        {stat.label}
+      </p>
     </div>
   );
 }
@@ -157,14 +167,15 @@ export default function ScrollytellingSection() {
           sectionVisible ? "opacity-100" : "opacity-0"
         }`}
       >
-        The Stakes
+        The Cost of Reconstruction
       </p>
       <p
         className={`text-xl text-gray-400 mb-12 transition-opacity duration-500 ease-out ${
           sectionVisible ? "opacity-100" : "opacity-0"
         }`}
       >
-        The cost of compliance without infrastructure.
+        What the wrong architecture costs.{" "}
+        <span style={{ color: "#D4A791" }}>Every quarter.</span>
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 w-full max-w-5xl mx-auto">

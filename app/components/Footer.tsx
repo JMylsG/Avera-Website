@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#080d14] border-t border-white/5 py-16">
+    <footer className="w-full bg-[#080d14] border-t border-[#D4A791]/35 py-16">
       <div className="max-w-6xl mx-auto px-8">
         {/* Top row - three columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -47,7 +47,7 @@ export default function Footer() {
 
           {/* Column 2 - Product */}
           <div>
-            <p className="text-white text-sm font-semibold uppercase tracking-widest mb-4">
+            <p className="text-[#D4A791] text-sm font-semibold uppercase tracking-widest mb-4">
               Product
             </p>
             <nav className="flex flex-col gap-3">
@@ -71,7 +71,7 @@ export default function Footer() {
 
           {/* Column 3 - Company */}
           <div>
-            <p className="text-white text-sm font-semibold uppercase tracking-widest mb-4">
+            <p className="text-[#D4A791] text-sm font-semibold uppercase tracking-widest mb-4">
               Company
             </p>
             <nav className="flex flex-col gap-3">
@@ -92,7 +92,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="border-t border-white/5 mt-12 mb-8" />
+        <div className="border-t border-[#D4A791]/35 mt-12 mb-8" />
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p className="text-gray-400 text-sm">
             © 2026 Avera Systems. All rights reserved.

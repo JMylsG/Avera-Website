@@ -57,7 +57,7 @@ const STAGES: Stage[] = [
     label: "Avera v1.5.0 + Relay",
     timing: "Mid Q1 2027",
     subtext:
-      "MSP Dashboard and remote relay introduced. MSPs gain secure remote visibility into local compliance records. Clinic data remains on-premise.",
+      "MSP Dashboard, remote relay, and firewall integration introduced. MSPs gain secure remote visibility into local compliance records. Firewall becomes a native source of truth within Avera. Clinic data remains on-premise.",
   },
   {
     status: "upcoming",
