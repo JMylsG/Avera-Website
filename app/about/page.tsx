@@ -91,11 +91,14 @@ export default function AboutPage() {
                 className="max-w-2xl mx-auto text-center"
                 style={fadeStyle(0)}
               >
-                <div className="w-20 h-20 rounded-full bg-[#315798]/30 border border-[#315798] flex items-center justify-center text-[#7D95E0] text-2xl font-bold mx-auto mb-6">
+                <div
+                  className="w-20 h-20 rounded-full bg-[#315798]/30 flex items-center justify-center text-[#7D95E0] text-2xl font-bold mx-auto mb-6"
+                  style={{ border: "1px solid rgba(212, 167, 145, 0.6)" }}
+                >
                   M
                 </div>
                 <p className="text-white text-xl font-semibold mb-1">Myls</p>
-                <p className="text-[#7D95E0] text-sm mb-6">Founder &amp; CEO</p>
+                <p className="text-[#D4A791] text-sm mb-6">Founder &amp; CEO</p>
                 <p className="text-gray-400 leading-relaxed">
                   Avera started from a simple observation: MSPs managing
                   healthcare networks were spending weeks every quarter
@@ -114,7 +117,7 @@ export default function AboutPage() {
                   The Mission
                 </p>
                 <h2 className="text-white text-2xl font-bold mb-6">
-                  The gap is architectural.
+                  The gap is <span className="text-[#D4A791]">architectural.</span>
                 </h2>
                 <p className="text-gray-400 leading-relaxed">
                   Healthcare organizations face real regulatory consequences when
@@ -135,10 +138,13 @@ export default function AboutPage() {
                   {PRINCIPLES.map((card, i) => (
                     <div
                       key={card.title}
-                      className="bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-8"
-                      style={fadeStyle(2 + i)}
+                      className="bg-[#0d1520] rounded-2xl p-8"
+                      style={{
+                        ...fadeStyle(2 + i),
+                        border: "1px solid rgba(212, 167, 145, 0.35)",
+                      }}
                     >
-                      <h3 className="text-white font-semibold text-lg mb-3">
+                      <h3 className="text-[#D4A791] font-semibold text-lg mb-3">
                         {card.title}
                       </h3>
                       <p className="text-gray-400 text-sm">{card.body}</p>
@@ -154,7 +160,7 @@ export default function AboutPage() {
                 className="max-w-2xl mx-auto text-center flex flex-col items-center gap-8"
                 style={fadeStyle(2 + PRINCIPLES.length)}
               >
-                <p className="text-white text-2xl font-light italic">
+                <p className="text-[#D4A791] text-2xl font-light italic">
                   &ldquo;The gap is architectural. The solution is
                   infrastructure. On-Premise. No Compromise.&rdquo;
                 </p>

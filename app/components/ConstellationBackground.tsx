@@ -127,6 +127,29 @@ function mixRgb(
   ];
 }
 
+function getSectionIntensity(scrollY: number, viewportHeight: number) {
+  const safeHeight = Math.max(viewportHeight, 1);
+  const rawIndex = scrollY / safeHeight;
+  const index = Math.floor(rawIndex);
+  const progress = rawIndex - index;
+  const intensityMap = [0.94, 0.66, 0.8, 0.9, 0.74, 0.84];
+  const current = intensityMap[Math.min(index, intensityMap.length - 1)] ?? 0.86;
+  const next =
+    intensityMap[Math.min(index + 1, intensityMap.length - 1)] ?? intensityMap[intensityMap.length - 1];
+  return lerp(current, next, progress);
+}
+
+function getEvidenceWarmth(scrollY: number, viewportHeight: number) {
+  const safeHeight = Math.max(viewportHeight, 1);
+  const rawIndex = scrollY / safeHeight;
+  const index = Math.floor(rawIndex);
+  const progress = rawIndex - index;
+  const warmthMap = [0.1, 0.07, 0.18, 0.22, 0.16, 0.14];
+  const current = warmthMap[Math.min(index, warmthMap.length - 1)] ?? 0.12;
+  const next = warmthMap[Math.min(index + 1, warmthMap.length - 1)] ?? warmthMap[warmthMap.length - 1];
+  return lerp(current, next, progress);
+}
+
 function getNodeBehavior(
   node: NetworkNode,
   breakRuntime: BreakRuntime,
@@ -434,6 +457,8 @@ export default function LedgerNetworkBackground({
 
       const coreX = width * 0.5;
       const coreY = height * 0.5;
+      const sectionIntensity = getSectionIntensity(scrollYRef.current, height);
+      const evidenceWarmth = getEvidenceWarmth(scrollYRef.current, height);
       const drawNodes: DrawNode[] = [];
 
       for (const node of nodesRef.current) {
@@ -520,7 +545,8 @@ export default function LedgerNetworkBackground({
         const opacity =
           (flareActive ? 1 : 0.75) *
           (behavior.cold ? 1 : 1) *
-          behavior.flickerAlpha;
+          behavior.flickerAlpha *
+          sectionIntensity;
 
         drawNodes.push({
           node,
@@ -538,6 +564,18 @@ export default function LedgerNetworkBackground({
 
       ctx.clearRect(0, 0, width, height);
 
+      const warmGradient = ctx.createRadialGradient(
+        width * 0.5, height * 0.5, 0,
+        width * 0.5, height * 0.5, Math.min(width, height) * 0.55
+      );
+      warmGradient.addColorStop(0, `rgba(212, 167, 145, ${0.07 * evidenceWarmth})`);
+      warmGradient.addColorStop(0.4, `rgba(212, 167, 145, ${0.04 * evidenceWarmth})`);
+      warmGradient.addColorStop(0.75, `rgba(212, 167, 145, ${0.02 * evidenceWarmth})`);
+      warmGradient.addColorStop(1, "rgba(212, 167, 145, 0)");
+
+      ctx.fillStyle = warmGradient;
+      ctx.fillRect(0, 0, width, height);
+
       for (let index = 0; index < drawNodes.length; index += 1) {
         const from = drawNodes[index];
 
@@ -550,7 +588,8 @@ export default function LedgerNetworkBackground({
             const alpha =
               (1 - distance / CONNECTION_DISTANCE_DEVICE) *
               0.3 *
-              Math.min(from.connectionMultiplier, to.connectionMultiplier);
+              Math.min(from.connectionMultiplier, to.connectionMultiplier) *
+              sectionIntensity;
             if (alpha <= 0.002) continue;
             ctx.beginPath();
             ctx.strokeStyle = toRgba([49, 87, 152], alpha);
@@ -566,7 +605,8 @@ export default function LedgerNetworkBackground({
             const alpha =
               (1 - distance / CONNECTION_DISTANCE_EVIDENCE) *
               0.35 *
-              Math.min(from.connectionMultiplier, to.connectionMultiplier);
+              Math.min(from.connectionMultiplier, to.connectionMultiplier) *
+              sectionIntensity;
             if (alpha <= 0.002) continue;
             ctx.beginPath();
             ctx.strokeStyle = toRgba(EVIDENCE_RGB, alpha);
@@ -581,7 +621,8 @@ export default function LedgerNetworkBackground({
           const alpha =
             (1 - distance / 100) *
             0.2 *
-            Math.min(from.connectionMultiplier, to.connectionMultiplier);
+            Math.min(from.connectionMultiplier, to.connectionMultiplier) *
+            sectionIntensity;
           if (alpha <= 0.002) continue;
           ctx.beginPath();
           ctx.strokeStyle = `rgba(180, 155, 180, ${alpha})`;
@@ -597,8 +638,8 @@ export default function LedgerNetworkBackground({
         .map((node) => {
           const isEvidence = node.node.kind === "evidence";
           const alpha = isEvidence
-            ? 0.4 * node.averaOpacityMultiplier
-            : 0.25 * node.connectionMultiplier;
+            ? 0.4 * node.averaOpacityMultiplier * sectionIntensity
+            : 0.25 * node.connectionMultiplier * sectionIntensity;
 
           return { node, alpha };
         })
@@ -620,16 +661,16 @@ export default function LedgerNetworkBackground({
 
       for (const drawNode of drawNodes) {
         if (drawNode.flareActive) {
-          ctx.shadowBlur = drawNode.node.kind === "evidence" ? 16 : 12;
+          ctx.shadowBlur = (drawNode.node.kind === "evidence" ? 16 : 12) * sectionIntensity;
           ctx.shadowColor =
             drawNode.node.kind === "evidence"
               ? toRgba(EVIDENCE_RGB, 0.65)
               : toRgba(DEVICE_RGB, 0.5);
         } else if (drawNode.node.kind === "evidence" && drawNode.connectionMultiplier > 0.2) {
-          ctx.shadowBlur = 10;
+          ctx.shadowBlur = 10 * sectionIntensity;
           ctx.shadowColor = toRgba(EVIDENCE_RGB, 0.28);
         } else if (drawNode.node.kind === "device" && drawNode.connectionMultiplier > 0.2) {
-          ctx.shadowBlur = 8;
+          ctx.shadowBlur = 8 * sectionIntensity;
           ctx.shadowColor = toRgba(DEVICE_RGB, 0.22);
         } else {
           ctx.shadowBlur = 0;
@@ -648,7 +689,7 @@ export default function LedgerNetworkBackground({
 
       const pulseProgress = (timestamp % CORE_PULSE_LOOP_MS) / CORE_PULSE_LOOP_MS;
       const pulseRadius = lerp(CORE_PULSE_MIN_RADIUS, CORE_PULSE_MAX_RADIUS, pulseProgress);
-      const pulseOpacity = lerp(0.4, 0, pulseProgress);
+      const pulseOpacity = lerp(0.4, 0, pulseProgress) * sectionIntensity;
 
       ctx.beginPath();
       ctx.strokeStyle = toRgba(EVIDENCE_RGB, pulseOpacity);
@@ -656,7 +697,7 @@ export default function LedgerNetworkBackground({
       ctx.arc(coreX, coreY, pulseRadius, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.shadowBlur = 18;
+      ctx.shadowBlur = 18 * sectionIntensity;
       ctx.shadowColor = toRgba(EVIDENCE_RGB, 0.45);
       ctx.beginPath();
       ctx.fillStyle = "#D4A791";

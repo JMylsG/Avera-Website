@@ -28,44 +28,35 @@ export default function RecognitionSection() {
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-24"
+      className="relative flex min-h-screen flex-col items-center justify-center px-6 py-24"
     >
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/10 via-[#0a0f1a]/45 to-[#0a0f1a]/25" />
       <div
-        className="max-w-[680px] mx-auto text-center transition-[opacity,transform] duration-[600ms] ease-out"
-        style={{
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? "translateY(0)" : "translateY(24px)",
-        }}
+        className={`relative w-full max-w-3xl rounded-[1.75rem] border border-[#7D95E0]/15 bg-[#0a0f1a]/55 px-6 py-10 text-center transition-all duration-[600ms] ease-out md:px-10 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+        }`}
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+        <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#7D95E0]/35 to-transparent" />
+        <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">
           The reason you rebuild every quarter isn&apos;t effort. It&apos;s{" "}
-          <span style={{ color: "#D4A791" }}>architecture</span>.
+          <span className="text-[#D4A791]">architecture</span>.
         </h2>
 
-        <p
-          className="text-base mt-6 max-w-[520px] mx-auto leading-relaxed"
-          style={{ color: "rgba(255,255,255,0.55)" }}
-        >
+        <p className="mx-auto mt-6 max-w-[560px] text-base leading-relaxed text-white/60">
           RMMs, SIEMs, scanners. Every tool you&apos;re running was built to
           answer: what&apos;s happening now. None of them were built to answer:
           what happened, and can you prove it. That&apos;s not a workflow gap.
           That&apos;s a structural one.
         </p>
 
-        <blockquote
-          className="mt-12 pl-6 text-left max-w-[480px] mx-auto"
-          style={{ borderLeft: "3px solid #D4A791" }}
-        >
-          <p
-            className="text-base italic leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.8)" }}
-          >
+        <blockquote className="mx-auto mt-12 max-w-[500px] rounded-xl border border-[rgba(212,167,145,0.35)] bg-[#1a120e]/45 px-5 py-4 text-left">
+          <p className="text-base italic leading-relaxed text-white/80">
             &quot;We spend two weeks every quarter doing something we&apos;ve
             already done three times before. Same clinics, same process, same
             spreadsheets. The only thing that changes is the date on the
             report.&quot;
           </p>
-          <p className="text-sm mt-2" style={{ color: "#D4A791", fontWeight: 500 }}>
+          <p className="mt-2 text-sm font-medium text-[#D4A791]">
             MSP owner, 12 healthcare practices
           </p>
         </blockquote>

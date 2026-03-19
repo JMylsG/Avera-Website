@@ -103,7 +103,10 @@ export default function ContactPage() {
             <section className="py-20 px-6">
               <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="flex flex-col gap-4" style={fadeStyle(0)}>
-                  <div className="bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-6 flex flex-col gap-1">
+                  <div
+                    className="bg-[#0d1520] rounded-2xl p-6 flex flex-col gap-1"
+                    style={{ border: "1px solid rgba(212, 167, 145, 0.35)" }}
+                  >
                     <p className="text-[#7D95E0] text-xs font-semibold tracking-widest uppercase">
                       Email
                     </p>
@@ -115,7 +118,10 @@ export default function ContactPage() {
                     </a>
                   </div>
 
-                  <div className="bg-[#0d1520] border border-[#315798]/20 rounded-2xl p-6 flex flex-col gap-1">
+                  <div
+                    className="bg-[#0d1520] rounded-2xl p-6 flex flex-col gap-1"
+                    style={{ border: "1px solid rgba(212, 167, 145, 0.35)" }}
+                  >
                     <p className="text-[#7D95E0] text-xs font-semibold tracking-widest uppercase">
                       Response Time
                     </p>

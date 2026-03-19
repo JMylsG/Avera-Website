@@ -108,7 +108,7 @@ function FAQColumn({
             >
               <span className="text-white font-medium pr-4">{item.question}</span>
               <span
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-[#7D95E0] text-lg font-light transition-transform duration-200"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-[#D4A791] text-lg font-light transition-transform duration-200"
                 aria-hidden
               >
                 {isOpen ? "−" : "+"}

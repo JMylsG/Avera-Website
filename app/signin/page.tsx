@@ -68,7 +68,7 @@ export default function SignInPage() {
       </Link>
 
         <h1 className="text-white text-4xl md:text-5xl font-bold mb-4 text-center">
-          Sign in to Avera.
+          Sign into Avera.
         </h1>
         <p className="text-gray-400 text-lg mb-12 text-center max-w-md">
           Track your registration and stay updated on availability.

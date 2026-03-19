@@ -46,33 +46,33 @@ export default function BeforeAfterSection() {
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-24 text-center"
+      className="relative flex min-h-screen flex-col items-center justify-center px-6 py-24 text-center"
     >
-      <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-6">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/35 via-[#0a0f1a]/20 to-[#0a0f1a]/45" />
+      <p className="relative mb-6 text-sm font-semibold uppercase tracking-[0.22em] text-[#7D95E0]">
         The Difference
       </p>
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight max-w-3xl mx-auto mb-12">
+      <h2 className="relative mx-auto mb-12 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl lg:text-5xl">
         Compliance used to mean reconstruction. Not anymore.
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl mx-auto">
+      <div className="relative mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
         {/* Before Card */}
         <div
-          className="rounded-2xl border border-[rgba(239,68,68,0.15)] bg-[#0d0a0a] p-6 md:p-8 text-left transition-all duration-700 ease-out"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? "translateX(0)" : "translateX(-80px)",
-          }}
+          className={`rounded-2xl border border-[#315798]/25 bg-[#0d0a0a] p-6 text-left transition-all duration-700 ease-out md:p-8 ${
+            isVisible ? "translate-x-0 opacity-100" : "-translate-x-20 opacity-0"
+          }`}
         >
-          <h3 className="text-rose-400 text-lg font-semibold mb-6">Before</h3>
+          <h3 className="mb-6 text-lg font-semibold text-[#7D95E0]">Before</h3>
           <ul className="space-y-5 md:space-y-4">
-            {BEFORE_ITEMS.map((item) => (
+            {BEFORE_ITEMS.map((item, index) => (
               <li
                 key={item}
-                className="flex items-start gap-3 text-sm md:text-base"
-                style={{ color: "rgba(255,255,255,0.5)" }}
+                className={`flex items-start gap-3 pb-4 text-sm text-white/55 md:text-base ${
+                  index !== BEFORE_ITEMS.length - 1 ? "border-b border-white/5" : "pb-0"
+                }`}
               >
-                <span className="text-rose-500 mt-0.5 flex-shrink-0" aria-hidden>
+                <span className="mt-0.5 flex-shrink-0 text-[#315798]" aria-hidden>
                   ✕
                 </span>
                 <span>{item}</span>
@@ -83,27 +83,20 @@ export default function BeforeAfterSection() {
 
         {/* After Card */}
         <div
-          className="rounded-2xl border border-[rgba(184,135,111,0.35)] bg-[#1a120e] p-6 md:p-8 text-left transition-all duration-700 ease-out"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? "translateX(0)" : "translateX(80px)",
-          }}
+          className={`rounded-2xl border border-[rgba(212,167,145,0.35)] bg-[#1a120e] p-6 text-left transition-all duration-700 ease-out md:p-8 ${
+            isVisible ? "translate-x-0 opacity-100" : "translate-x-20 opacity-0"
+          }`}
         >
-          <h3 className="text-lg font-semibold mb-6" style={{ color: "#D4A791" }}>
-            After
-          </h3>
+          <h3 className="mb-6 text-lg font-semibold text-[#D4A791]">After</h3>
           <ul className="space-y-5 md:space-y-4">
-            {AFTER_ITEMS.map((item) => (
+            {AFTER_ITEMS.map((item, index) => (
               <li
                 key={item}
-                className="flex items-start gap-3 text-sm md:text-base"
-                style={{ color: "rgba(255,255,255,0.55)" }}
+                className={`flex items-start gap-3 pb-4 text-sm text-white/60 md:text-base ${
+                  index !== AFTER_ITEMS.length - 1 ? "border-b border-[#D4A791]/15" : "pb-0"
+                }`}
               >
-                <span
-                  className="mt-0.5 flex-shrink-0"
-                  style={{ color: "#D4A791" }}
-                  aria-hidden
-                >
+                <span className="mt-0.5 flex-shrink-0 text-[#D4A791]" aria-hidden>
                   ✓
                 </span>
                 <span>{item}</span>

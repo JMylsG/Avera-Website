@@ -58,13 +58,19 @@ export default function DemoPage() {
             </p>
 
             {submitted ? (
-              <div className="rounded-2xl border border-[#315798]/30 bg-[#0d1520] p-8">
+              <div
+                className="rounded-2xl bg-[#0d1520] p-8"
+                style={{ border: "1px solid rgba(212, 167, 145, 0.35)" }}
+              >
                 <p className="text-white text-base">
                   Request received. We&apos;ll be in touch within 48 hours.
                 </p>
               </div>
             ) : (
-              <div className="rounded-2xl border border-[#315798]/30 bg-[#0d1520] p-8">
+              <div
+                className="rounded-2xl bg-[#0d1520] p-8"
+                style={{ border: "1px solid rgba(212, 167, 145, 0.35)" }}
+              >
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-gray-400 text-sm">Full Name</label>

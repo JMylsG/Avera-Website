@@ -26,9 +26,10 @@ export default function PrivacyPolicyPage() {
               {/* Intro */}
               <p className="text-gray-300">
                 This Privacy Policy describes how information is collected, used, and
-                disclosed by Avera Systems, operated by Myls Guanso, an Arizona sole
-                proprietor (&ldquo;Avera,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;), in connection with the
-                website located at averasystems.com (the &ldquo;Site&rdquo;).
+                disclosed by Avera Systems, a trade name of Guanso Systems LLC, an
+                Arizona limited liability company (&ldquo;Avera,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or
+                &ldquo;us&rdquo;), in connection with the website located at averasystems.com
+                (the &ldquo;Site&rdquo;).
               </p>
 
               <hr className="border-white/10" />

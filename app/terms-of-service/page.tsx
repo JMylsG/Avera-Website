@@ -27,8 +27,9 @@ export default function TermsOfServicePage() {
               <p className="text-gray-300">
                 These Terms of Service (&ldquo;Terms&rdquo;) govern access to and use of the
                 website located at averasystems.com (the &ldquo;Site&rdquo;) and related services
-                provided by Avera Systems, operated by Myls Guanso, an Arizona sole
-                proprietor (&ldquo;Avera,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;).
+                provided under the trade name Avera Systems, a trade name of Guanso
+                Systems LLC, an Arizona limited liability company (&ldquo;Avera,&rdquo;
+                &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;).
               </p>
               <p className="text-gray-300">
                 By accessing or using the Site, you agree to these Terms.
@@ -104,7 +105,8 @@ export default function TermsOfServicePage() {
                 </h2>
                 <p className="text-gray-300 mb-4">
                   All content, branding, materials, software descriptions, and related
-                  intellectual property displayed on the Site are owned by Avera.
+                  intellectual property displayed on the Site are owned by Guanso Systems
+                  LLC and presented under the trade name Avera Systems.
                 </p>
                 <p className="text-gray-300">
                   No rights or licenses are granted except as expressly stated.

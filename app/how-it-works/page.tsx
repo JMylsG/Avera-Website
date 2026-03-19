@@ -83,34 +83,45 @@ export default function HowItWorksPage() {
     <div className="min-h-screen bg-[#0a0f1a]">
       <ConstellationBackground />
       <div className="relative z-[1]">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/34 via-[#0a0f1a]/20 to-[#0a0f1a]/18" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_116%_74%_at_50%_10%,rgba(49,87,152,0.1),transparent_58%)]" />
         <Navbar />
 
         <main className="pt-24">
-          <section className="py-20 px-6 text-center max-w-3xl mx-auto">
-            <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-6">
-              How It Works
-            </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-              Compliance infrastructure that runs itself.
-            </h1>
-            <p className="text-gray-400 text-lg">
-              From install to audit-ready in under an hour.
-            </p>
+          <section className="relative overflow-hidden py-20 px-6 text-center">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_74%_42%_at_50%_30%,rgba(49,87,152,0.2),transparent_72%)]" />
+            <div className="pointer-events-none absolute left-1/2 top-[50%] h-[280px] w-[min(88vw,880px)] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#7D95E0]/12" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/14 via-transparent to-[#0a0f1a]/34" />
+            <div className="relative max-w-3xl mx-auto">
+              <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-6">
+                How It Works
+              </p>
+              <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+                Compliance infrastructure that <span className="text-[#D4A791]">runs itself.</span>
+              </h1>
+              <p className="text-gray-400 text-lg">
+                From install to audit-ready in under an hour.
+              </p>
+            </div>
           </section>
 
-          <section ref={sectionRef} className="px-6 pb-24">
-            <div className="relative max-w-4xl mx-auto pl-2 md:pl-6">
-              <div className="absolute left-8 top-0 bottom-0 w-px bg-gray-700/50 overflow-hidden">
+          <section ref={sectionRef} className="relative overflow-hidden px-6 pb-24">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_84%_56%_at_50%_50%,rgba(49,87,152,0.1),transparent_76%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/14 via-transparent to-[#0a0f1a]/28" />
+            <div className="relative max-w-4xl mx-auto rounded-[28px] border border-[#315798]/16 bg-[#0a111a]/34 px-4 py-6 md:px-8 md:py-10">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[74%] w-[920px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/10 md:block" />
+              <div className="absolute left-8 top-0 bottom-0 w-px overflow-hidden" style={{ backgroundColor: "rgba(125,149,224,0.2)" }}>
                 <div
-                  className="w-full bg-[#315798] transition-all duration-500 ease-out"
+                  className="w-full transition-all duration-500 ease-out"
                   style={{
                     height: `${lineProgress}%`,
-                    boxShadow: "0 0 12px 2px rgba(49, 87, 152, 0.6)",
+                    backgroundColor: "#315798",
+                    boxShadow: "0 0 12px 2px rgba(49,87,152,0.55)",
                   }}
                 />
               </div>
 
-              <div className="relative space-y-10">
+              <div className="relative space-y-12">
                 {STEPS.map((step, index) => {
                   const isVisible = visibleSteps.includes(index);
 
@@ -125,14 +136,59 @@ export default function HowItWorksPage() {
                       }}
                     >
                       <div className="relative w-16 shrink-0 flex flex-col items-center pt-1">
-                        <div className="w-6 h-6 rounded-full bg-[#7D95E0] shadow-[0_0_10px_rgba(125,149,224,0.55)]" />
-                        <div className="mt-3 w-10 h-10 rounded-lg border border-[#315798]/40 bg-[#0f1726] text-[#7D95E0] flex items-center justify-center">
+                        {(() => {
+                          const total = STEPS.length;
+                          const progress = isVisible ? (index + 1) / total : 0;
+                          const radius = 10;
+                          const circumference = 2 * Math.PI * radius;
+                          const strokeDashoffset = circumference * (1 - progress);
+                          return (
+                            <div
+                              className="transition-all duration-700 ease-out"
+                              style={{ opacity: isVisible ? 1 : 0 }}
+                            >
+                              <svg width="24" height="24" viewBox="0 0 24 24" style={{ transform: "rotate(-90deg)" }}>
+                                {/* Track */}
+                                <circle
+                                  cx="12"
+                                  cy="12"
+                                  r={radius}
+                                  fill="none"
+                                  stroke="rgba(125,149,224,0.2)"
+                                  strokeWidth="2"
+                                />
+                                {/* Fill */}
+                                <circle
+                                  cx="12"
+                                  cy="12"
+                                  r={radius}
+                                  fill="none"
+                                  stroke="#7D95E0"
+                                  strokeWidth="2"
+                                  strokeDasharray={circumference}
+                                  strokeDashoffset={strokeDashoffset}
+                                  strokeLinecap="round"
+                                  style={{ transition: "stroke-dashoffset 600ms ease-out" }}
+                                />
+                              </svg>
+                            </div>
+                          );
+                        })()}
+                        <div
+                          className="mt-3 w-10 h-10 rounded-lg bg-[#101a2a] flex items-center justify-center"
+                          style={{
+                            border: "1px solid rgba(125,149,224,0.3)",
+                            color: "#7D95E0",
+                            opacity: isVisible ? 1 : 0,
+                            transition: "opacity 500ms ease-out",
+                          }}
+                        >
                           {step.icon}
                         </div>
                       </div>
 
-                      <div className="flex-1 pt-0.5">
-                        <p className="text-[#7D95E0] text-xs font-semibold tracking-widest uppercase mb-1">
+                      <div className="flex-1 pt-0.5 max-w-2xl">
+                        <p className="text-[#D4A791] text-xs font-semibold tracking-widest uppercase mb-1">
                           Step {index + 1}
                         </p>
                         <h2 className="text-white text-xl md:text-2xl font-semibold mb-3">
@@ -149,12 +205,15 @@ export default function HowItWorksPage() {
             </div>
           </section>
 
-          <section className="py-24 px-6">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-white text-3xl md:text-4xl font-bold mb-8">
+          <section className="relative overflow-hidden py-24 px-6">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_72%_40%_at_50%_54%,rgba(49,87,152,0.12),transparent_76%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/10 via-transparent to-[#0a0f1a]/14" />
+            <div className="relative max-w-3xl mx-auto px-6 py-12 text-center md:px-10">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[230px] w-[min(88vw,760px)] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/12" />
+              <h2 className="relative text-white text-3xl md:text-4xl font-bold mb-8">
                 Ready to see it live?
               </h2>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+              <div className="relative flex flex-col sm:flex-row items-center justify-center gap-5">
                 <Link
                   href="/timeline"
                   className="bg-[#315798] hover:bg-[#7D95E0] text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300"

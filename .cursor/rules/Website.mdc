@@ -4,12 +4,24 @@ alwaysApply: true
 
 - This is a Next.js 15 project using the App Router, TypeScript, and Tailwind CSS
 - Always use the app/ directory structure, never pages/
-- Never use inline styles, always use Tailwind classes
-- Brand colors are #315798 (primary blue) and #7D95E0 (light blue), background is #0a0f1a
+- Never use inline styles unless a value cannot be expressed in Tailwind (e.g. exact hex colors, dynamic opacity). Prefer Tailwind classes for everything else
+- Brand colors: #315798 (primary blue), #7D95E0 (accent blue), #D4A791 (terracotta — ledger, history, permanence). Background: #0a0f1a. Cold card surfaces: #0d0a0a. Warm card surfaces: #1a120e
+- Terracotta (#D4A791) is never decorative. Use it only on meaningful elements: evidence, history, permanence, the Avera core thesis
+- Section pills always use #7D95E0. Never terracotta on pills
+- Card borders are always rgba(212,167,145,0.35) — terracotta on all cards, both cold and warm
 - All components go in app/components/
 - All pages go in app/ as page.tsx files
-- Never install unnecessary dependencies, ask first before adding any new package
+- Never install unnecessary dependencies. Ask before adding any new package
 - Always use TypeScript, never plain JavaScript
 - Keep components small and single-purpose
-- The site is dark mode only, never add light mode styles
+- The site is dark mode only. Never add light mode styles
 - Never touch globals.css unless explicitly asked
+- No em dashes anywhere in copy. Use periods, commas, colons, or semicolons instead
+- Write "Zero cloud storage" not "zero cloud dependency"
+- No autonomous AI framing. AI observes and informs, never acts
+- ConstellationBackground.tsx is the canvas animation component. Do not rename or restructure it
+- Footer section headers are terracotta. Bottom tagline is #7D95E0
+- Navbar: Sign Up button uses terracotta bg. Active nav link uses terracotta underline
+- All Composer prompts must be inside a code block, no exceptions
+- One problem per prompt. Do not combine fixes with refactors
+- Never suggest changes to files you haven't been shown

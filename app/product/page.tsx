@@ -95,71 +95,86 @@ export default function ProductPage() {
     <div className="min-h-screen bg-[#0a0f1a]">
       <ConstellationBackground />
       <div className="relative z-[1]">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/45 via-[#0a0f1a]/58 to-[#0a0f1a]/34" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_12%,rgba(49,87,152,0.08),transparent_56%)]" />
         <Navbar />
 
         {/* Section 1 — Category Definition */}
-        <section className="pt-40 pb-24 px-6 text-center max-w-3xl mx-auto">
-          <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
-            What Avera Is
-          </p>
-          <h1 className="text-white text-4xl font-bold mb-6">
-            The Compliance System of Record.
-          </h1>
-          <p className="text-gray-400">
-            Avera is an infrastructure layer purpose-built for continuous
-            evidentiary device tracking in regulated environments. It sits
-            between network infrastructure and compliance management platforms,
-            maintaining persistent device identity and an immutable historical
-            record of device presence, state, and authorization, independent of
-            audit cycles.
-          </p>
+        <section className="relative overflow-hidden px-6 pb-24 pt-40">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_72%_42%_at_50%_26%,rgba(49,87,152,0.22),transparent_70%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/32 via-transparent to-[#0a0f1a]/54" />
+          <div className="pointer-events-none absolute left-1/2 top-[30%] h-[320px] w-[760px] -translate-x-1/2 rounded-[999px] border border-[#7D95E0]/10" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#0a0f1a] to-transparent" />
+          <div className="relative mx-auto max-w-3xl text-center">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#7D95E0]">
+              What Avera Is
+            </p>
+            <h1 className="mb-6 text-4xl font-bold text-white">
+              The Compliance System of Record.
+            </h1>
+            <p className="text-gray-400">
+              Avera is an infrastructure layer purpose-built for continuous
+              evidentiary device tracking in regulated environments. It sits
+              between network infrastructure and compliance management platforms,
+              maintaining persistent device identity and an immutable historical
+              record of device presence, state, and authorization, independent of
+              audit cycles.
+            </p>
+          </div>
         </section>
 
         {/* Section 2 — Core System Guarantees */}
-        <section className="py-24 px-6 max-w-4xl mx-auto">
-          <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
+        <section className="relative mx-auto max-w-4xl px-6 py-24">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_76%_46%_at_50%_54%,rgba(49,87,152,0.07),transparent_72%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/28 via-transparent to-[#0a0f1a]/46" />
+          <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#7D95E0]">
             System Guarantees
           </p>
-          <h2 className="text-white text-3xl font-bold mb-12">
+          <h2 className="mb-12 text-3xl font-bold text-white">
             Architectural primitives, not features.
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[430px] w-[930px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/10 lg:block" />
             {GUARANTEE_CARDS.map((card) => (
               <div
                 key={card.title}
-                className="border border-[#315798]/20 rounded-2xl p-8 bg-[#0d1520]"
+                className="rounded-2xl border border-[rgba(212,167,145,0.35)] bg-[#0d0a0a] p-8"
               >
-                <h3 className="text-white font-semibold text-lg mb-3">
+                <h3 className="mb-3 text-lg font-semibold text-white">
                   {card.title}
                 </h3>
-                <p className="text-gray-400 text-sm">{card.body}</p>
+                <p className="text-sm text-gray-400">{card.body}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Section 3 — Where Avera Fits */}
-        <section className="py-24 px-6 max-w-3xl mx-auto text-center">
-          <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
+        <section className="relative mx-auto max-w-3xl px-6 py-24 text-center">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_78%_46%_at_50%_52%,rgba(49,87,152,0.18),transparent_72%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/34 via-transparent to-[#0a0f1a]/50" />
+          <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#7D95E0]">
             Architectural Position
           </p>
-          <h2 className="text-white text-3xl font-bold mb-12">
+          <h2 className="mb-12 text-3xl font-bold text-white">
             Where Avera sits.
           </h2>
-          <div className="flex flex-col items-center mb-12">
-            <div className="w-full bg-[#0d1520] border border-white/10 rounded-xl px-6 py-4 text-gray-400 mb-2">
+          <div className="relative mb-12 flex flex-col items-center">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[430px] w-[540px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/15" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[440px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] bg-[#315798]/10 blur-3xl" />
+            <div className="mb-2 w-full rounded-xl border border-[rgba(212,167,145,0.35)] bg-[#0d0a0a] px-6 py-4 text-gray-400">
               Network Infrastructure
             </div>
-            <span className="text-[#7D95E0] text-xl mb-2">↓</span>
-            <div className="w-full bg-[#315798]/20 border border-[#7D95E0]/40 rounded-xl px-6 py-4 text-white font-semibold mb-2">
+            <span className="mb-2 text-xl text-[#7D95E0]">↓</span>
+            <div className="mb-2 w-full rounded-xl border border-[#7D95E0]/40 bg-[#315798]/20 px-6 py-4 font-semibold text-white">
               Avera — Compliance System of Record
             </div>
-            <span className="text-[#7D95E0] text-xl mb-2">↓</span>
-            <div className="w-full bg-[#0d1520] border border-white/10 rounded-xl px-6 py-4 text-gray-400 mb-2">
+            <span className="mb-2 text-xl text-[#7D95E0]">↓</span>
+            <div className="mb-2 w-full rounded-xl border border-[rgba(212,167,145,0.35)] bg-[#0d0a0a] px-6 py-4 text-gray-400">
               Compliance Management Platform
             </div>
-            <span className="text-[#7D95E0] text-xl mb-2">↓</span>
-            <div className="w-full bg-[#0d1520] border border-white/10 rounded-xl px-6 py-4 text-gray-400">
+            <span className="mb-2 text-xl text-[#7D95E0]">↓</span>
+            <div className="w-full rounded-xl border border-[rgba(212,167,145,0.35)] bg-[#0d0a0a] px-6 py-4 text-gray-400">
               Auditor / Insurer
             </div>
           </div>
@@ -173,35 +188,37 @@ export default function ProductPage() {
         </section>
 
         {/* Section 4 — Operational Shift */}
-        <section className="py-24 px-6 max-w-5xl mx-auto">
-          <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
+        <section className="relative mx-auto max-w-5xl px-6 py-24">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/24 via-transparent to-[#0a0f1a]/44" />
+          <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#7D95E0]">
             Operational Shift
           </p>
-          <h2 className="text-white text-3xl font-bold mb-12">
+          <h2 className="mb-12 text-3xl font-bold text-white">
             Before. With Avera.
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-[#1a0f0f] border border-red-900/30 rounded-2xl p-8">
-              <h3 className="text-rose-400 font-semibold text-lg mb-6">
+          <div className="relative grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[320px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/10 md:block" />
+            <div className="rounded-2xl border border-[#315798]/20 bg-[#0d0a0a] p-8">
+              <h3 className="mb-6 text-lg font-semibold text-[#7D95E0]">
                 Before
               </h3>
               <ul className="space-y-3">
                 {BEFORE_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-gray-400 text-sm">
-                    <span className="text-red-500 flex-shrink-0">✕</span>
+                  <li key={item} className="flex items-start gap-3 text-sm text-gray-400">
+                    <span className="flex-shrink-0 text-[#7D95E0]">✕</span>
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="bg-[#0f1a2a] border border-[#315798]/30 rounded-2xl p-8">
-              <h3 className="text-[#7D95E0] font-semibold text-lg mb-6">
+            <div className="rounded-2xl border border-[rgba(212,167,145,0.35)] bg-[#1a120e] p-8">
+              <h3 className="mb-6 text-lg font-semibold text-[#D4A791]">
                 With Avera
               </h3>
               <ul className="space-y-3">
                 {AFTER_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-gray-400 text-sm">
-                    <span className="text-[#7D95E0] flex-shrink-0">✓</span>
+                  <li key={item} className="flex items-start gap-3 text-sm text-gray-400">
+                    <span className="flex-shrink-0 text-[#D4A791]">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -211,30 +228,36 @@ export default function ProductPage() {
         </section>
 
         {/* Section 5 — Example Queries */}
-        <section className="py-24 px-6 max-w-3xl mx-auto">
-          <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4 text-center">
+        <section className="relative mx-auto max-w-3xl px-6 py-24">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_72%_44%_at_50%_48%,rgba(49,87,152,0.16),transparent_72%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/30 via-transparent to-[#0a0f1a]/48" />
+          <p className="mb-4 text-center text-sm font-semibold uppercase tracking-widest text-[#7D95E0]">
             Example Queries
           </p>
-          <h2 className="text-white text-3xl font-bold mb-12 text-center">
+          <h2 className="mb-12 text-center text-3xl font-bold text-white">
             Questions the system can answer.
           </h2>
-          <div className="flex flex-col gap-3">
+          <div className="relative flex flex-col gap-3">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/10" />
             {EXAMPLE_QUERIES.map((q) => (
               <div
                 key={q.query}
-                className="bg-[#0d1520] border border-[#315798]/20 rounded-xl px-6 py-4 text-left"
+                className="rounded-xl border border-[rgba(212,167,145,0.35)] bg-[#0d0a0a] px-6 py-4 text-left"
               >
-                <p className="text-[#7D95E0] font-mono text-sm">{q.query}</p>
-                <p className="text-gray-400 text-xs mt-1">{q.answer}</p>
+                <p className="font-mono text-sm text-[#D4A791]">{q.query}</p>
+                <p className="mt-1 text-xs text-gray-400">{q.answer}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Section 6 — Closing */}
-        <section className="py-24">
-          <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center gap-8">
-            <p className="text-white text-2xl font-light italic">
+        <section className="relative overflow-hidden py-24">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_58%,rgba(49,87,152,0.22),transparent_72%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/16 via-transparent to-[#0a0f1a]/18" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[680px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/15" />
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-8 px-6 text-center">
+            <p className="text-xl font-light italic text-white">
               Compliance becomes continuous infrastructure. Not periodic
               reconstruction.
             </p>
