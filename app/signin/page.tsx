@@ -5,10 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase";
-import ConstellationBackground from "../components/ConstellationBackground";
 
 const GoogleIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24">
+  <svg className="h-5 w-5" viewBox="0 0 24 24">
     <path
       fill="#4285F4"
       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -51,32 +50,98 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f1a] relative">
-      <ConstellationBackground />
-      <div className="relative z-[1] flex flex-col items-center justify-center px-6 min-h-screen">
-        <Link href="/" className="flex items-center gap-2 mb-16 hover:opacity-90 transition-opacity">
-        <Image
-          src="/avera-logo.png"
-          alt="Avera"
-          width={48}
-          height={48}
-          className="object-contain"
-        />
-        <span className="font-logo text-white font-semibold text-xl tracking-[0.15em] uppercase">
-          AVERA
-        </span>
-      </Link>
+    <div
+      style={{
+        background: "#08090f",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 400,
+          padding: "0 24px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <Link
+          href="/"
+          className="transition-opacity hover:opacity-90"
+          style={{
+            marginBottom: 48,
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <Image
+            src="/avera-logo.png"
+            alt="Avera"
+            width={48}
+            height={48}
+            className="object-contain"
+          />
+          <span
+            style={{
+              fontWeight: 600,
+              fontSize: 15,
+              letterSpacing: "0.12em",
+              color: "#fff",
+            }}
+          >
+            AVERA
+          </span>
+        </Link>
 
-        <h1 className="text-white text-4xl md:text-5xl font-bold mb-4 text-center">
+        <h1
+          style={{
+            fontSize: 32,
+            fontWeight: 500,
+            color: "#fff",
+            lineHeight: 1.2,
+            marginBottom: 8,
+            letterSpacing: "-0.01em",
+          }}
+        >
           Sign into Avera.
         </h1>
-        <p className="text-gray-400 text-lg mb-12 text-center max-w-md">
+        <p
+          style={{
+            fontSize: 13,
+            color: "rgba(255,255,255,0.32)",
+            lineHeight: 1.65,
+            marginBottom: 36,
+            maxWidth: 300,
+          }}
+        >
           Track your registration and stay updated on availability.
         </p>
 
         <button
+          type="button"
           onClick={handleGoogleSignIn}
-          className="flex items-center gap-3 bg-white text-gray-900 rounded-full px-8 py-4 hover:bg-gray-100 transition-colors font-medium"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            background: "#fff",
+            color: "#1a1a1a",
+            fontSize: 14,
+            fontWeight: 500,
+            padding: "12px 28px",
+            borderRadius: 8,
+            border: "none",
+            cursor: "pointer",
+            width: "100%",
+            justifyContent: "center",
+          }}
+          className="transition-colors duration-200 hover:bg-gray-100"
         >
           <GoogleIcon />
           Continue with Google

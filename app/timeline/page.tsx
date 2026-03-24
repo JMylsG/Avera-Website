@@ -1,365 +1,612 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { createClient } from "@/lib/supabase";
 import Navbar from "../components/Navbar";
-import ConstellationBackground from "../components/ConstellationBackground";
 import Footer from "../components/Footer";
 
-type NodeStatus = "completed" | "active" | "upcoming";
+type StageStatus = "completed" | "active" | "upcoming";
 
-interface Stage {
-  status: NodeStatus;
-  side: "left" | "right";
-  label: string;
-  timing: string | null;
-  subtext: string;
-  cta?: boolean;
-}
+type Stage = {
+  id: string;
+  status: StageStatus;
+  title: string;
+  timing: string;
+  badge: string;
+  body: string;
+  features: string[];
+  cta: { label: string; href: string } | null;
+};
 
-const STAGES: Stage[] = [
+const stages: Stage[] = [
   {
+    id: "v1",
     status: "completed",
-    side: "left",
-    label: "Avera v1.0",
-    timing: null,
-    subtext: "Production-ready desktop app. Supports macOS and Windows.",
+    title: "Avera v1.0",
+    timing: "Released",
+    badge: "Completed",
+    body: "Production-ready desktop app. Supports macOS and Windows. Full compliance system of record including persistent device identity, continuous monitoring, immutable event timeline, and audit-ready evidence generation.",
+    features: [
+      "Persistent device identity across attribute changes",
+      "Continuous ARP-based device monitoring",
+      "SHA-256 hash-chained evidence ledger",
+      "Explainable device classification",
+      "HIPAA-aligned compliance reporting",
+      "WebAuthn authentication, role-based access",
+      "Zero cloud storage. Fully air-gap capable.",
+    ],
+    cta: null,
   },
   {
+    id: "testing",
     status: "active",
-    side: "right",
-    label: "Internal Testing",
-    timing: null,
-    subtext: "Live validation across real networks. Closing mid-March 2026.",
+    title: "Internal Testing",
+    timing: "Closing mid-March 2026",
+    badge: "Active",
+    body: "Live validation across partner networks and real environments. Tested across hotels with 240+ devices, home clinic networks, and partner lab environments. Final verification of device fingerprinting accuracy, ledger integrity under extended operation, and compliance report quality.",
+    features: [
+      "Live validation across hotels with 240+ devices scanned",
+      "Partner home network and lab environment testing",
+      "Extended ledger integrity under real-world conditions",
+      "Device fingerprinting accuracy benchmarking",
+      "Compliance report quality review",
+    ],
+    cta: null,
   },
   {
+    id: "cohort",
     status: "upcoming",
-    side: "left",
-    label: "Early Deployment Cohort",
-    timing: "Early April 2026",
-    subtext:
-      "30-day free pilot program. Limited seats. Early partners receive founding partner pricing based on device count.",
-    cta: true,
+    title: "Early Deployment Cohort",
+    timing: "Late April 2026",
+    badge: "Upcoming",
+    body: "30-day free pilot program. Limited seats. Early partners receive founding partner pricing based on device count, locked in for the life of the relationship. No commitment required to start.",
+    features: [
+      "30-day free pilot under written agreement",
+      "Founding partner pricing locked for life",
+      "Direct access to Avera during pilot",
+      "Full compliance system of record from day one",
+    ],
+    cta: { label: "Apply for Early Access", href: "/apply" },
   },
   {
+    id: "raise",
     status: "upcoming",
-    side: "right",
-    label: "Pre-Seed Raise",
+    title: "Pre-Seed Raise",
     timing: "Mid Q2 2026",
-    subtext:
-      "Raising to fund v2.0 development and expand deployment capacity.",
+    badge: "Upcoming",
+    body: "Raising to fund v1.5 and v2.0 development and expand deployment capacity. Target: 2 paying MSPs and 3 detailed LoIs as proof package.",
+    features: [
+      "Funding v1.5 relay and MSP dashboard development",
+      "Expanding deployment capacity",
+      "Building toward institutional-grade infrastructure",
+    ],
+    cta: null,
   },
   {
+    id: "v1-5",
     status: "upcoming",
-    side: "left",
-    label: "Avera v1.5.0 + Relay",
+    title: "Avera v1.5 + Relay",
     timing: "Mid Q1 2027",
-    subtext:
-      "MSP Dashboard, remote relay, and firewall integration introduced. MSPs gain secure remote visibility into local compliance records. Firewall becomes a native source of truth within Avera. Clinic data remains on-premise.",
+    badge: "Upcoming",
+    body: "MSP Dashboard, remote relay, and firewall integration introduced. MSPs gain secure remote visibility into local compliance records. Firewall becomes a native source of truth within Avera. Clinic data remains on-premise.",
+    features: [
+      "MSP Dashboard for remote compliance visibility",
+      "Encrypted relay server — no data at rest",
+      "Firewall integration (UniFi, OPNsense, pfSense, MikroTik, Sophos, Fortinet)",
+      "Firewall as native source of truth within Avera",
+      "Clinic data remains on-premise at all times",
+    ],
+    cta: null,
   },
   {
+    id: "v2",
     status: "upcoming",
-    side: "right",
-    label: "Avera v2.0.0 + Node",
+    title: "Avera v2.0 + Node",
     timing: "Early Q4 2027",
-    subtext:
-      "Hardware node integration. Device fingerprinting accuracy increases from 80–85% to 97%+.",
+    badge: "Upcoming",
+    body: "Hardware node integration. Dedicated appliance improving device fingerprinting accuracy from 80–85% to 97%+. Enables deep packet inspection and solves MSP remote access at the infrastructure level.",
+    features: [
+      "Dedicated Avera Node hardware appliance",
+      "Device fingerprinting accuracy: 80–85% → 97%+",
+      "Deep packet inspection capability",
+      "MSP remote access at infrastructure level",
+    ],
+    cta: null,
   },
 ];
 
-const STAGGER_DELAY_MS = 500;
+function statusDotColor(status: StageStatus): string {
+  if (status === "completed") return "#4caf79";
+  if (status === "active") return "#7D95E0";
+  return "rgba(255,255,255,0.2)";
+}
 
-function nodeDotStyle(status: NodeStatus, isVisible: boolean): React.CSSProperties {
-  const base: React.CSSProperties = {
-    transition: "transform 0.5s ease-out, opacity 0.5s ease-out",
-    transform: isVisible ? "scale(1)" : "scale(0)",
-    opacity: isVisible ? 1 : 0,
-  };
+function statusTextColor(status: StageStatus): string {
+  if (status === "completed") return "rgba(76,175,121,0.7)";
+  if (status === "active") return "rgba(125,149,224,0.7)";
+  return "rgba(255,255,255,0.3)";
+}
 
+function spineTitleColor(stage: Stage, active: boolean): string {
+  if (active) return "#fff";
+  if (stage.status === "completed") return "rgba(255,255,255,0.8)";
+  return "rgba(255,255,255,0.4)";
+}
+
+function badgeStyles(status: StageStatus): React.CSSProperties {
   if (status === "completed") {
     return {
-      ...base,
-      backgroundColor: "#7D95E0",
-      boxShadow: "0 0 12px 3px rgba(125,149,224,0.5)",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      fontSize: 10,
+      padding: "4px 10px",
+      borderRadius: 4,
+      marginBottom: 20,
+      background: "rgba(76,175,121,0.1)",
+      color: "#4caf79",
+      border: "0.5px solid rgba(76,175,121,0.3)",
     };
   }
   if (status === "active") {
     return {
-      ...base,
-      backgroundColor: "#7D95E0",
-      animation: isVisible ? "pulseGlow 2s ease-in-out infinite" : undefined,
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      fontSize: 10,
+      padding: "4px 10px",
+      borderRadius: 4,
+      marginBottom: 20,
+      background: "rgba(125,149,224,0.1)",
+      color: "#7D95E0",
+      border: "0.5px solid rgba(125,149,224,0.3)",
     };
   }
   return {
-    ...base,
-    backgroundColor: "rgb(75 85 99)",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
+    fontSize: 10,
+    padding: "4px 10px",
+    borderRadius: 4,
+    marginBottom: 20,
+    background: "rgba(255,255,255,0.04)",
+    color: "rgba(255,255,255,0.4)",
+    border: "0.5px solid rgba(255,255,255,0.1)",
   };
 }
 
 export default function TimelinePage() {
-  const router = useRouter();
-  const supabase = createClient();
-  const sectionRef = useRef<HTMLElement>(null);
-  const [visibleSteps, setVisibleSteps] = useState<number[]>([]);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const [lineProgress, setLineProgress] = useState(0);
-
-  const handleEarlyAccessClick = async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (!session) {
-      sessionStorage.setItem("redirectAfterLogin", "/apply");
-      router.push("/signin");
-    }
-  };
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated) {
-            setHasAnimated(true);
-            STAGES.forEach((_, i) => {
-              setTimeout(() => {
-                setVisibleSteps((prev) => [...prev, i]);
-                setLineProgress(((i + 1) / STAGES.length) * 100);
-              }, i * STAGGER_DELAY_MS);
-            });
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [hasAnimated]);
+  const [activeId, setActiveId] = useState("v1");
+  const activeStage = stages.find((s) => s.id === activeId) ?? stages[0];
 
   return (
-    <>
-      <style>{`
-        @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 0 8px 2px rgba(125, 149, 224, 0.4); }
-          50%       { box-shadow: 0 0 20px 6px rgba(125, 149, 224, 0.8); }
-        }
-      `}</style>
+    <div style={{ background: "#08090f", color: "#fff", minHeight: "100vh" }}>
+      <Navbar />
 
-      <div className="min-h-screen bg-[#0a0f1a]">
-        <ConstellationBackground />
-        <div className="relative z-[1]">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/34 via-[#0a0f1a]/22 to-[#0a0f1a]/18" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_118%_76%_at_50%_10%,rgba(49,87,152,0.1),transparent_58%)]" />
-          <Navbar />
-          <main className="pt-24">
+      {/* Section 1 — Hero */}
+      <section
+        style={{
+          padding: "96px 40px 64px",
+          borderBottom: "0.5px solid rgba(255,255,255,0.06)",
+        }}
+      >
+        <div
+          style={{
+            fontSize: 10,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "rgba(125,149,224,0.55)",
+            marginBottom: 14,
+          }}
+        >
+          Roadmap
+        </div>
+        <h1
+          style={{
+            fontSize: 44,
+            fontWeight: 500,
+            color: "#fff",
+            lineHeight: 1.15,
+            letterSpacing: "-0.015em",
+            marginBottom: 10,
+          }}
+        >
+          Where we are. Where we&apos;re going.
+        </h1>
+        <p
+          style={{
+            fontSize: 14,
+            color: "rgba(255,255,255,0.32)",
+            lineHeight: 1.7,
+            maxWidth: 460,
+          }}
+        >
+          A transparent view of Avera&apos;s progress and what&apos;s coming next.
+        </p>
+      </section>
 
-            {/* Page header */}
-            <section className="relative overflow-hidden py-20 px-6 text-center">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_74%_42%_at_50%_30%,rgba(49,87,152,0.2),transparent_72%)]" />
-              <div className="pointer-events-none absolute left-1/2 top-[48%] h-[280px] w-[min(88vw,900px)] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#7D95E0]/12" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/18 via-transparent to-[#0a0f1a]/34" />
-              <div className="relative max-w-3xl mx-auto">
-                <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-6">
-                  Roadmap
-                </p>
-                <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-                  <span className="text-[#D4A791]">Where we are.</span> Where we&apos;re going.
-                </h1>
-                <p className="text-gray-400 text-lg">
-                  A transparent view of Avera&apos;s progress and what&apos;s coming next.
-                </p>
-              </div>
-            </section>
-
-            {/* Timeline */}
-            <section
-              ref={sectionRef}
-              className="relative overflow-hidden px-6 pb-24"
-            >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_82%_56%_at_50%_50%,rgba(49,87,152,0.1),transparent_76%)]" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/16 via-transparent to-[#0a0f1a]/30" />
-              <div className="relative w-full max-w-4xl mx-auto rounded-[28px] border border-[#315798]/16 bg-[#0a111a]/38 px-3 py-6 md:px-8 md:py-10">
-                <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[72%] w-[940px] -translate-x-1/2 -translate-y-1/2 rounded-[999px] border border-[#315798]/10 md:block" />
-
-                {/* Center spine */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-gray-700/50 overflow-hidden">
+      {/* Section 2 — Roadmap */}
+      <section
+        style={{
+          display: "grid",
+          gridTemplateColumns: "280px 1fr",
+          borderBottom: "0.5px solid rgba(255,255,255,0.06)",
+        }}
+      >
+        <div
+          style={{
+            borderRight: "0.5px solid rgba(255,255,255,0.07)",
+          }}
+        >
+          {stages.map((stage, index) => {
+            const active = stage.id === activeId;
+            return (
+              <button
+                key={stage.id}
+                type="button"
+                onClick={() => setActiveId(stage.id)}
+                style={{
+                  width: "100%",
+                  padding: "24px 24px 24px 32px",
+                  borderBottom:
+                    index < stages.length - 1
+                      ? "0.5px solid rgba(255,255,255,0.05)"
+                      : "none",
+                  background: active
+                    ? "rgba(125,149,224,0.06)"
+                    : "transparent",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  position: "relative",
+                  transition: "background 0.15s",
+                  color: "inherit",
+                  borderLeft: "none",
+                  borderTop: "none",
+                  borderRight: "none",
+                }}
+              >
+                {active && (
                   <div
-                    className="w-full bg-[#315798] transition-all duration-500 ease-out"
                     style={{
-                      height: `${lineProgress}%`,
-                      boxShadow: "0 0 12px 2px rgba(49, 87, 152, 0.6)",
+                      position: "absolute",
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: "1.5px",
+                      background: "#7D95E0",
                     }}
                   />
-                </div>
-
-                <div className="relative space-y-0">
-                  {STAGES.map((stage, index) => {
-                    const isVisible = visibleSteps.includes(index);
-                    const isUpcoming = stage.status === "upcoming";
-
-                    return (
-                      <div
-                        key={index}
-                        className={`flex items-center gap-8 py-10 ${
-                          stage.side === "left" ? "flex-row" : "flex-row-reverse"
-                        }`}
-                      >
-                        {/* Content */}
-                        <div
-                          className={`flex-1 ${
-                            stage.side === "left" ? "text-right" : "text-left"
-                          } transition-all duration-500 ease-out ${
-                            isUpcoming ? "opacity-50" : ""
-                          }`}
-                          style={{
-                            opacity: isVisible ? (isUpcoming ? 0.5 : 1) : 0,
-                            transform: isVisible
-                              ? "translateX(0)"
-                              : stage.side === "left"
-                                ? "translateX(-20px)"
-                                : "translateX(20px)",
-                          }}
-                        >
-                          {stage.timing && (
-                            <p className="text-[#D4A791] text-xs font-medium mb-1 tracking-wide uppercase">
-                              {stage.timing}
-                            </p>
-                          )}
-
-                          <p
-                            className={`font-semibold text-base mb-2 ${
-                              isUpcoming ? "text-gray-400" : "text-white"
-                            }`}
-                          >
-                            {stage.label}
-                            {stage.status === "active" && (
-                              <span className="ml-2 text-xs bg-[rgba(212,167,145,0.15)] text-[#D4A791] px-2 py-0.5 rounded-full align-middle">
-                                Active
-                              </span>
-                            )}
-                          </p>
-
-                          <p
-                            className={`text-sm leading-relaxed ${
-                              stage.status === "active"
-                                ? "text-gray-300"
-                                : isUpcoming
-                                  ? "text-gray-500"
-                                  : "text-gray-400"
-                            }`}
-                          >
-                            {stage.subtext}
-                          </p>
-
-                          {stage.cta && (
-                            <div
-                              className={
-                                stage.side === "left" ? "flex justify-end" : "flex justify-start"
-                              }
-                            >
-                              <button
-                                type="button"
-                                onClick={handleEarlyAccessClick}
-                                className="inline-block mt-4 bg-[#315798] hover:bg-[#7D95E0] text-white text-sm font-semibold px-6 py-2.5 rounded-full transition-colors duration-300"
-                              >
-                                Apply for Early Access
-                              </button>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Center dot */}
-                        <div className="relative flex-shrink-0 w-12 h-12 flex items-center justify-center z-10">
-                          <div
-                            className="absolute w-4 h-4 rounded-full"
-                            style={nodeDotStyle(stage.status, isVisible)}
-                          />
-                        </div>
-
-                        {/* Spacer */}
-                        <div className="flex-1" aria-hidden />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </section>
-
-          </main>
-
-          {/* Screenshot showcase section */}
-          <section className="relative overflow-hidden py-24 px-6">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_78%_48%_at_50%_52%,rgba(49,87,152,0.12),transparent_76%)]" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/14 via-transparent to-[#0a0f1a]/28" />
-            <div className="relative mx-auto max-w-[980px] rounded-[28px] border border-[#315798]/16 bg-[#0a111a]/36 px-6 py-10 md:px-10">
-              <div className="text-center mb-12">
-                <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
-                  The Product
-                </p>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Built for the work. Not the audit.
-                </h2>
-                <p className="text-gray-400">A look inside Avera v1.0.</p>
-              </div>
-              <div className="mx-auto max-w-[900px] grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { src: "/Home-Screen.png", caption: "The compliance record that never resets." },
-                  { src: "/Compliance.png", caption: "Continuous & Verified. Not reconstructed." },
-                  { src: "/Policy-Pack.png", caption: "Every major framework. Verified out of the box." },
-                  { src: "/Evidence.png", caption: "Audit-ready evidence. Generated in seconds." },
-                ].map(({ src, caption }) => (
-                  <div key={src}>
-                    <Image
-                      src={src}
-                      alt={caption}
-                      width={900}
-                      height={562}
-                      className="w-full h-auto rounded-2xl border border-[#315798]/30 shadow-[0_0_30px_rgba(49,87,152,0.15)]"
-                    />
-                    <p className="text-gray-400 text-sm text-center mt-3">{caption}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Video section */}
-          <section className="relative overflow-hidden py-24 px-6 text-center">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_42%_at_50%_54%,rgba(49,87,152,0.11),transparent_76%)]" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/12 via-transparent to-[#0a0f1a]/14" />
-            <div className="relative mx-auto max-w-[900px] rounded-[28px] border border-[#315798]/16 bg-[#0a111a]/32 px-6 py-10 md:px-10">
-              <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-4">
-                See It In Action
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Avera. Live.
-              </h2>
-              <p className="text-gray-400 mb-10">
-                A full walkthrough of Avera v1.0 running on a live network.
-              </p>
-              <div className="mx-auto max-w-[800px]">
-                <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-                  <iframe
-                    className="absolute inset-0 w-full h-full rounded-2xl border border-[#315798]/30 shadow-[0_0_40px_rgba(49,87,152,0.2)]"
-                    src="https://www.youtube.com/embed/80QctqL4yxo"
-                    title="Avera v1.0 Walkthrough"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    marginBottom: 6,
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 5,
+                      height: 5,
+                      borderRadius: "50%",
+                      background: statusDotColor(stage.status),
+                      flexShrink: 0,
+                      boxShadow:
+                        stage.status === "active"
+                          ? "0 0 6px rgba(125,149,224,0.7)"
+                          : undefined,
+                    }}
                   />
+                  <span
+                    style={{
+                      fontSize: 9,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                      color: statusTextColor(stage.status),
+                    }}
+                  >
+                    {stage.status.charAt(0).toUpperCase() + stage.status.slice(1)}
+                  </span>
                 </div>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: spineTitleColor(stage, active),
+                  }}
+                >
+                  {stage.title}
+                </div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontFamily: "monospace",
+                    color: "rgba(212,167,145,0.6)",
+                    marginTop: 3,
+                  }}
+                >
+                  {stage.timing}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        <div style={{ padding: "40px 48px" }}>
+          <div
+            style={{
+              fontSize: 10,
+              fontFamily: "monospace",
+              color: "rgba(212,167,145,0.6)",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              marginBottom: 12,
+            }}
+          >
+            {activeStage.timing}
+          </div>
+          <h2
+            style={{
+              fontSize: 28,
+              fontWeight: 500,
+              color: "#fff",
+              marginBottom: 14,
+              lineHeight: 1.2,
+            }}
+          >
+            {activeStage.title}
+          </h2>
+          <div style={badgeStyles(activeStage.status)}>
+            <span
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: statusDotColor(activeStage.status),
+                flexShrink: 0,
+              }}
+            />
+            {activeStage.badge}
+          </div>
+          <p
+            style={{
+              fontSize: 13,
+              color: "rgba(255,255,255,0.38)",
+              lineHeight: 1.75,
+              maxWidth: 500,
+              marginBottom: 24,
+            }}
+          >
+            {activeStage.body}
+          </p>
+          {activeStage.features.map((feature) => (
+            <div
+              key={feature}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 10,
+                fontSize: 12,
+                color: "rgba(255,255,255,0.4)",
+                marginBottom: 8,
+              }}
+            >
+              <span
+                style={{
+                  color:
+                    activeStage.status === "upcoming"
+                      ? "rgba(255,255,255,0.2)"
+                      : "#4caf79",
+                  fontSize: 10,
+                  flexShrink: 0,
+                  marginTop: 1,
+                }}
+              >
+                ✓
+              </span>
+              <span>{feature}</span>
+            </div>
+          ))}
+          {activeStage.cta && (
+            <Link
+              href={activeStage.cta.href}
+              className="hover:bg-[#7D95E0] transition-colors duration-300"
+              style={{
+                display: "inline-block",
+                marginTop: 24,
+                background: "#315798",
+                color: "#fff",
+                fontSize: 12,
+                fontWeight: 500,
+                padding: "11px 24px",
+                borderRadius: 7,
+                textDecoration: "none",
+              }}
+            >
+              {activeStage.cta.label}
+            </Link>
+          )}
+        </div>
+      </section>
+
+      {/* Section 3 — Screenshots */}
+      <section style={{ borderBottom: "0.5px solid rgba(255,255,255,0.06)" }}>
+        <div
+          style={{
+            padding: "40px 40px 28px",
+            borderBottom: "0.5px solid rgba(255,255,255,0.05)",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "rgba(125,149,224,0.55)",
+              marginBottom: 10,
+            }}
+          >
+            The product
+          </div>
+          <div
+            style={{
+              fontSize: 22,
+              fontWeight: 500,
+              color: "#fff",
+              marginBottom: 6,
+            }}
+          >
+            Built for continuous history. Nothing less.
+          </div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)" }}>
+            A look inside Avera v1.0 running on a live network.
+          </div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+          {[
+            {
+              src: "/app-home.png",
+              alt: "Avera Home — System of Record",
+              caption: "System of Record. Always current.",
+              sub: "Continuous record coverage, ledger integrity verified, policy authority active.",
+              borderRight: "0.5px solid rgba(255,255,255,0.06)" as const,
+              borderBottom: "0.5px solid rgba(255,255,255,0.06)" as const,
+            },
+            {
+              src: "/app-audit-query.png",
+              alt: "Avera Audit Query — Investigations",
+              caption: "Audit queries. Structured and forensic.",
+              sub: "Every investigation is a structured case file derived from the canonical evidence ledger.",
+              borderRight: "none" as const,
+              borderBottom: "0.5px solid rgba(255,255,255,0.06)" as const,
+            },
+            {
+              src: "/app-evidence.png",
+              alt: "Avera Evidence — Generate Certified Record",
+              caption: "Certified records. In seconds.",
+              sub: "Generate audit-ready evidence for any historical date. Device inventory, approval timeline, compliance posture.",
+              borderRight: "0.5px solid rgba(255,255,255,0.06)" as const,
+              borderBottom: "none" as const,
+            },
+            {
+              src: "/app-activity.png",
+              alt: "Avera Activity — Security Activity and Environment State",
+              caption: "Live activity. Full environment state.",
+              sub: "240 security events. 30 visible devices across 6 rooms. Ledger and projections verified.",
+              borderRight: "none" as const,
+              borderBottom: "none" as const,
+            },
+          ].map((cell) => (
+            <div
+              key={cell.src}
+              style={{
+                padding: "28px 32px",
+                borderRight: cell.borderRight,
+                borderBottom: cell.borderBottom,
+              }}
+            >
+              <Image
+                src={cell.src}
+                alt={cell.alt}
+                width={900}
+                height={562}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: 6,
+                  border: "0.5px solid rgba(255,255,255,0.08)",
+                  marginBottom: 14,
+                }}
+              />
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "rgba(255,255,255,0.75)",
+                  marginBottom: 5,
+                }}
+              >
+                {cell.caption}
+              </div>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: "rgba(255,255,255,0.28)",
+                  lineHeight: 1.55,
+                }}
+              >
+                {cell.sub}
               </div>
             </div>
-          </section>
-
-          <Footer />
+          ))}
         </div>
-      </div>
-    </>
+      </section>
+
+      {/* Section 4 — CTA */}
+      <section
+        style={{
+          padding: "72px 40px",
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 14,
+          borderTop: "0.5px solid rgba(255,255,255,0.06)",
+        }}
+      >
+        <div
+          style={{
+            fontSize: 24,
+            fontWeight: 500,
+            color: "rgba(255,255,255,0.9)",
+          }}
+        >
+          See it running on your network.
+        </div>
+        <div
+          style={{
+            fontSize: 13,
+            color: "rgba(255,255,255,0.28)",
+            maxWidth: 400,
+            textAlign: "center",
+            lineHeight: 1.65,
+          }}
+        >
+          Avera v1.0 is production-ready. 30-day free pilot. No commitment
+          required.
+        </div>
+        <Link
+          href="/demo"
+          className="hover:bg-[#7D95E0] transition-colors duration-300"
+          style={{
+            display: "inline-block",
+            marginTop: 8,
+            background: "#315798",
+            color: "#fff",
+            fontSize: 13,
+            fontWeight: 500,
+            padding: "13px 36px",
+            borderRadius: 8,
+            textDecoration: "none",
+          }}
+        >
+          Request a Demo
+        </Link>
+        <div
+          style={{
+            fontSize: 11,
+            color: "rgba(255,255,255,0.18)",
+            marginTop: 4,
+          }}
+        >
+          Zero cloud storage · Local-first · Audit-ready in 60 seconds
+        </div>
+      </section>
+
+      <Footer />
+    </div>
   );
 }

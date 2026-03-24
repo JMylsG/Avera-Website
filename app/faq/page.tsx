@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
-import ConstellationBackground from "../components/ConstellationBackground";
 import Footer from "../components/Footer";
 
 const FAQ_ITEMS_LEFT = [
@@ -78,6 +77,14 @@ const FAQ_ITEMS_RIGHT = [
   },
 ];
 
+const columnHeaderStyle: React.CSSProperties = {
+  fontSize: 10,
+  letterSpacing: "0.12em",
+  textTransform: "uppercase",
+  color: "rgba(125,149,224,0.55)",
+  marginBottom: 20,
+};
+
 function FAQColumn({
   items,
   openIndex,
@@ -90,25 +97,30 @@ function FAQColumn({
   columnId: string;
 }) {
   return (
-    <div className="border-b border-white/10">
+    <div className="border-b border-[rgba(255,255,255,0.07)]">
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         return (
           <div
             key={index}
-            className="border-t border-white/10 first:border-t-0"
+            className="border-t border-[rgba(255,255,255,0.07)] first:border-t-0"
           >
             <button
               type="button"
               onClick={() => onToggle(isOpen ? -1 : index)}
-              className="w-full flex items-center justify-between gap-4 py-5 text-left hover:bg-white/[0.02] transition-colors"
+              className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:bg-white/[0.02]"
               aria-expanded={isOpen}
               aria-controls={`faq-${columnId}-answer-${index}`}
               id={`faq-${columnId}-question-${index}`}
             >
-              <span className="text-white font-medium pr-4">{item.question}</span>
               <span
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-[#D4A791] text-lg font-light transition-transform duration-200"
+                className="pr-4 font-medium"
+                style={{ color: "rgba(255,255,255,0.8)", fontSize: 14 }}
+              >
+                {item.question}
+              </span>
+              <span
+                className="flex h-8 w-8 flex-shrink-0 items-center justify-center text-lg font-light text-[#D4A791] transition-transform duration-200"
                 aria-hidden
               >
                 {isOpen ? "−" : "+"}
@@ -124,7 +136,14 @@ function FAQColumn({
                 opacity: isOpen ? 1 : 0,
               }}
             >
-              <p className="text-gray-300 text-sm leading-relaxed pb-5 pl-0 pr-12">
+              <p
+                className="pb-5 pl-0 pr-12"
+                style={{
+                  color: "rgba(255,255,255,0.45)",
+                  fontSize: 13,
+                  lineHeight: 1.7,
+                }}
+              >
                 {item.answer}
               </p>
             </div>
@@ -136,31 +155,8 @@ function FAQColumn({
 }
 
 export default function FAQPage() {
-  const sectionRef = useRef<HTMLElement>(null);
   const [openIndexLeft, setOpenIndexLeft] = useState<number | null>(null);
   const [openIndexRight, setOpenIndexRight] = useState<number | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated) {
-            setHasAnimated(true);
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [hasAnimated]);
 
   const handleToggleLeft = (index: number) => {
     setOpenIndexLeft(index === -1 ? null : index);
@@ -171,74 +167,108 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f1a]">
-      <ConstellationBackground />
+    <div className="min-h-screen" style={{ background: "#08090f" }}>
       <div className="relative z-[1]">
         <Navbar />
 
         <main className="pt-24">
-          {/* Hero */}
-          <section className="py-20 px-6 text-center max-w-3xl mx-auto">
-            <p className="text-[#7D95E0] text-sm font-semibold tracking-widest uppercase mb-6">
+          <section
+            style={{
+              padding: "96px 40px 64px",
+              borderBottom: "0.5px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <p
+              style={{
+                fontSize: 10,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(125,149,224,0.55)",
+                marginBottom: 14,
+              }}
+            >
               FAQ
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+            <h1
+              style={{
+                fontSize: 44,
+                fontWeight: 500,
+                color: "#fff",
+                lineHeight: 1.15,
+                letterSpacing: "-0.015em",
+                marginBottom: 10,
+              }}
+            >
               Questions we actually get asked.
             </h1>
-            <p className="text-gray-400 text-lg">
+            <p
+              style={{
+                fontSize: 14,
+                color: "rgba(255,255,255,0.32)",
+                lineHeight: 1.7,
+                maxWidth: 460,
+              }}
+            >
               For the teams that deploy it and the practices that run on it.
             </p>
           </section>
 
-          {/* Two-column Accordion FAQ */}
           <section
-            ref={sectionRef}
-            className="px-6 pb-24"
             style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? "translateY(0)" : "translateY(16px)",
-              transition: "opacity 550ms ease-out, transform 550ms ease-out",
+              padding: "48px 40px 80px",
+              maxWidth: 1200,
+              margin: "0 auto",
             }}
           >
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                {/* Left column */}
-                <div>
-                  <h2 className="text-[#7D95E0] text-xs font-semibold tracking-widest uppercase mb-6">
-                    For IT Teams & MSPs
-                  </h2>
-                  <FAQColumn
-                    items={FAQ_ITEMS_LEFT}
-                    openIndex={openIndexLeft}
-                    onToggle={handleToggleLeft}
-                    columnId="left"
-                  />
-                </div>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
+              <div>
+                <h2 style={columnHeaderStyle}>For IT Teams & MSPs</h2>
+                <FAQColumn
+                  items={FAQ_ITEMS_LEFT}
+                  openIndex={openIndexLeft}
+                  onToggle={handleToggleLeft}
+                  columnId="left"
+                />
+              </div>
 
-                {/* Right column */}
-                <div>
-                  <h2 className="text-[#7D95E0] text-xs font-semibold tracking-widest uppercase mb-6">
-                    For Practice Managers
-                  </h2>
-                  <FAQColumn
-                    items={FAQ_ITEMS_RIGHT}
-                    openIndex={openIndexRight}
-                    onToggle={handleToggleRight}
-                    columnId="right"
-                  />
-                </div>
+              <div>
+                <h2 style={columnHeaderStyle}>For Practice Managers</h2>
+                <FAQColumn
+                  items={FAQ_ITEMS_RIGHT}
+                  openIndex={openIndexRight}
+                  onToggle={handleToggleRight}
+                  columnId="right"
+                />
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="mt-16 text-center w-full">
-              <p className="text-gray-400 text-lg mb-4">Still have questions?</p>
+            <div
+              style={{
+                marginTop: 56,
+                textAlign: "center",
+                borderTop: "0.5px solid rgba(255,255,255,0.06)",
+                paddingTop: 40,
+              }}
+            >
+              <p
+                style={{
+                  fontSize: 14,
+                  color: "rgba(255,255,255,0.35)",
+                  marginBottom: 12,
+                }}
+              >
+                Still have questions?
+              </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 text-[#7D95E0] hover:text-[#315798] font-semibold transition-colors"
+                style={{
+                  fontSize: 13,
+                  color: "rgba(125,149,224,0.8)",
+                  textDecoration: "none",
+                }}
+                className="transition-colors hover:text-white"
               >
-                Contact Us
-                <span aria-hidden>→</span>
+                Contact us
               </Link>
             </div>
           </section>

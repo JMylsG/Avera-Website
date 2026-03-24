@@ -2,51 +2,39 @@
 
 import { useEffect, useRef } from "react";
 
-const NODE_COUNT_DEVICE = 68;
-const NODE_COUNT_EVIDENCE = 12;
-const CONNECTION_DISTANCE_DEVICE = 140;
-const CONNECTION_DISTANCE_EVIDENCE = 120;
-const CONNECTION_DISTANCE_AVERA = 180;
-const EVIDENCE_GRAVITY = 0.0008;
-const BREAK_FLICKER_MS = 500;
-const BREAK_COLD_MS = 900;
 const BREAK_COMPLETE_MS = 2000;
 const RESTORE_DELAY_MS = 3500;
 const RESTORE_DURATION_MS = 800;
 
-const CORE_RADIUS = 8;
-const CORE_PULSE_MIN_RADIUS = 10;
-const CORE_PULSE_MAX_RADIUS = 22;
-const CORE_PULSE_LOOP_MS = 2500;
-const MAX_AVERA_CONNECTIONS = 8;
-const BREAK_FREEZE_MS = 1500;
-const CONNECTION_FADE_MS = 300;
-const EVIDENCE_DIM_MS = 400;
-const FLARE_DURATION_FRAMES = 10;
-const FLARE_MIN_FRAMES = 180;
-const FLARE_MAX_FRAMES = 240;
-const EVIDENCE_FLARE_MIN_FRAMES = 150;
-const EVIDENCE_FLARE_MAX_FRAMES = 210;
-const DEVICE_SCROLL_OFFSET = -0.012;
-const EVIDENCE_SCROLL_OFFSET = -0.005;
-const FRAME_MS = 1000 / 60;
+const BG_FILL = "#060912";
 
-const DEVICE_RGB: [number, number, number] = [125, 149, 224];
-const EVIDENCE_RGB: [number, number, number] = [212, 167, 145];
-const COLD_RGB: [number, number, number] = [26, 31, 46];
+const BLOB1_COLOR = "rgba(49, 87, 152, 0.10)";
+const BLOB1_CYCLE_MS = 18000;
+const BLOB1_RADIUS_W = 0.65;
+const BLOB1_ORIGIN_X = 0.2;
+const BLOB1_ORIGIN_Y = 0.4;
+const BLOB1_SWING_X = 0.12;
+const BLOB1_SWING_Y = 0.08;
 
-type NodeKind = "device" | "evidence";
+const BLOB2_COLOR = "rgba(20, 30, 60, 0.35)";
+const BLOB2_CYCLE_MS = 24000;
+const BLOB2_RADIUS_W = 0.7;
+const BLOB2_ORIGIN_X = 0.8;
+const BLOB2_ORIGIN_Y = 0.6;
+const BLOB2_SWING_X = 0.1;
+const BLOB2_SWING_Y = 0.1;
 
-interface NetworkNode {
-  id: string;
-  kind: NodeKind;
-  xPct: number;
-  yPct: number;
-  vx: number;
-  vy: number;
-  baseRadius: number;
-  flareCountdown: number;
-  flareFrames: number;
+const BLOB3_COLOR = "rgba(212, 167, 145, 0.28)";
+const BLOB3_DRIFT_MS = 14000;
+const BLOB3_PULSE_MS = 6000;
+const BLOB3_RADIUS_MIN_W = 0.4;
+const BLOB3_RADIUS_MAX_W = 0.44;
+const BLOB3_DRIFT = 0.04;
+
+const GRADIENT_TRANSPARENT = "rgba(0, 0, 0, 0)";
+
+function lerp(start: number, end: number, progress: number) {
+  return start + (end - start) * progress;
 }
 
 interface BreakRuntime {
@@ -56,221 +44,6 @@ interface BreakRuntime {
   brokenDeviceIds: string[];
   brokenEvidenceIds: string[];
   completionFired: boolean;
-}
-
-interface NodeBehavior {
-  flickerAlpha: number;
-  cold: boolean;
-  frozen: boolean;
-  restoreProgress: number;
-  connectionMultiplier: number;
-  averaOpacityMultiplier: number;
-}
-
-interface DrawNode {
-  node: NetworkNode;
-  x: number;
-  y: number;
-  radius: number;
-  opacity: number;
-  fillStyle: string;
-  connectionMultiplier: number;
-  averaOpacityMultiplier: number;
-  distanceToCore: number;
-  flareActive: boolean;
-}
-
-function clamp(value: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, value));
-}
-
-function lerp(start: number, end: number, progress: number) {
-  return start + (end - start) * progress;
-}
-
-function randomRange(min: number, max: number) {
-  return min + Math.random() * (max - min);
-}
-
-function shuffle<T>(items: T[]) {
-  const next = [...items];
-  for (let index = next.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    [next[index], next[swapIndex]] = [next[swapIndex], next[index]];
-  }
-  return next;
-}
-
-function distanceBetween(ax: number, ay: number, bx: number, by: number) {
-  return Math.hypot(bx - ax, by - ay);
-}
-
-function nextFlareCountdown(kind: NodeKind) {
-  return kind === "evidence"
-    ? randomRange(EVIDENCE_FLARE_MIN_FRAMES, EVIDENCE_FLARE_MAX_FRAMES)
-    : randomRange(FLARE_MIN_FRAMES, FLARE_MAX_FRAMES);
-}
-
-function toRgba(rgb: readonly [number, number, number], alpha = 1) {
-  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`;
-}
-
-function mixRgb(
-  from: readonly [number, number, number],
-  to: readonly [number, number, number],
-  progress: number
-): [number, number, number] {
-  return [
-    Math.round(lerp(from[0], to[0], progress)),
-    Math.round(lerp(from[1], to[1], progress)),
-    Math.round(lerp(from[2], to[2], progress)),
-  ];
-}
-
-function getSectionIntensity(scrollY: number, viewportHeight: number) {
-  const safeHeight = Math.max(viewportHeight, 1);
-  const rawIndex = scrollY / safeHeight;
-  const index = Math.floor(rawIndex);
-  const progress = rawIndex - index;
-  const intensityMap = [0.94, 0.66, 0.8, 0.9, 0.74, 0.84];
-  const current = intensityMap[Math.min(index, intensityMap.length - 1)] ?? 0.86;
-  const next =
-    intensityMap[Math.min(index + 1, intensityMap.length - 1)] ?? intensityMap[intensityMap.length - 1];
-  return lerp(current, next, progress);
-}
-
-function getEvidenceWarmth(scrollY: number, viewportHeight: number) {
-  const safeHeight = Math.max(viewportHeight, 1);
-  const rawIndex = scrollY / safeHeight;
-  const index = Math.floor(rawIndex);
-  const progress = rawIndex - index;
-  const warmthMap = [0.1, 0.07, 0.18, 0.22, 0.16, 0.14];
-  const current = warmthMap[Math.min(index, warmthMap.length - 1)] ?? 0.12;
-  const next = warmthMap[Math.min(index + 1, warmthMap.length - 1)] ?? warmthMap[warmthMap.length - 1];
-  return lerp(current, next, progress);
-}
-
-function getNodeBehavior(
-  node: NetworkNode,
-  breakRuntime: BreakRuntime,
-  timestamp: number
-): NodeBehavior {
-  if (breakRuntime.startTime === null) {
-    return {
-      flickerAlpha: 1,
-      cold: false,
-      frozen: false,
-      restoreProgress: 0,
-      connectionMultiplier: 1,
-      averaOpacityMultiplier: 1,
-    };
-  }
-
-  const elapsed = timestamp - breakRuntime.startTime;
-  const restoring = breakRuntime.restoreStartTime !== null;
-  const restoreProgress = restoring
-    ? clamp((timestamp - breakRuntime.restoreStartTime!) / RESTORE_DURATION_MS, 0, 1)
-    : 0;
-  const brokenDevice = breakRuntime.brokenDeviceIds.includes(node.id);
-  const brokenEvidence = breakRuntime.brokenEvidenceIds.includes(node.id);
-
-  if (!brokenDevice && !brokenEvidence) {
-    return {
-      flickerAlpha: 1,
-      cold: false,
-      frozen: false,
-      restoreProgress,
-      connectionMultiplier: 1,
-      averaOpacityMultiplier: 1,
-    };
-  }
-
-  let flickerAlpha = 1;
-  if (brokenDevice && !restoring && elapsed < BREAK_FLICKER_MS) {
-    const flickerProgress = clamp(elapsed / BREAK_FLICKER_MS, 0, 1);
-    flickerAlpha = 0.35 + 0.65 * Math.abs(Math.sin(flickerProgress * Math.PI * 3));
-  }
-
-  const coldStart = brokenDevice ? BREAK_FLICKER_MS : BREAK_COLD_MS;
-  const coldAge = elapsed - coldStart;
-  const cold = coldAge >= 0 && restoreProgress < 1;
-
-  let connectionMultiplier = 1;
-  if (cold) {
-    if (restoring) {
-      connectionMultiplier = restoreProgress;
-    } else {
-      connectionMultiplier = clamp(1 - coldAge / CONNECTION_FADE_MS, 0, 1);
-    }
-  }
-
-  let averaOpacityMultiplier = 1;
-  if (brokenDevice && cold) {
-    averaOpacityMultiplier = connectionMultiplier;
-  } else if (brokenEvidence && cold) {
-    if (restoring) {
-      averaOpacityMultiplier = lerp(0.125, 1, restoreProgress);
-    } else {
-      const dimProgress = clamp(coldAge / EVIDENCE_DIM_MS, 0, 1);
-      averaOpacityMultiplier = lerp(1, 0.125, dimProgress);
-    }
-  }
-
-  return {
-    flickerAlpha,
-    cold,
-    frozen: cold && elapsed >= BREAK_FREEZE_MS && !restoring,
-    restoreProgress,
-    connectionMultiplier,
-    averaOpacityMultiplier,
-  };
-}
-
-function createNetworkNodes(width: number, height: number) {
-  const nodes: NetworkNode[] = [];
-  const centerX = width * 0.5;
-  const centerY = height * 0.5;
-  const evidenceRadiusLimit = Math.min(width, height) * 0.25;
-
-  for (let index = 0; index < NODE_COUNT_EVIDENCE; index += 1) {
-    const angle = randomRange(0, Math.PI * 2);
-    const radius = evidenceRadiusLimit * Math.sqrt(Math.random());
-    const speed = randomRange(0.15, 0.25);
-    const velocityAngle = randomRange(0, Math.PI * 2);
-    const x = centerX + Math.cos(angle) * radius;
-    const y = centerY + Math.sin(angle) * radius;
-
-    nodes.push({
-      id: `evidence-${index}`,
-      kind: "evidence",
-      xPct: clamp(x / width, 0.02, 0.98),
-      yPct: clamp(y / height, 0.02, 0.98),
-      vx: Math.cos(velocityAngle) * speed,
-      vy: Math.sin(velocityAngle) * speed,
-      baseRadius: randomRange(2.5, 3.5),
-      flareCountdown: nextFlareCountdown("evidence"),
-      flareFrames: 0,
-    });
-  }
-
-  for (let index = 0; index < NODE_COUNT_DEVICE; index += 1) {
-    const speed = randomRange(0.3, 0.7);
-    const velocityAngle = randomRange(0, Math.PI * 2);
-
-    nodes.push({
-      id: `device-${index}`,
-      kind: "device",
-      xPct: randomRange(0.02, 0.98),
-      yPct: randomRange(0.02, 0.98),
-      vx: Math.cos(velocityAngle) * speed,
-      vy: Math.sin(velocityAngle) * speed,
-      baseRadius: randomRange(1.5, 3),
-      flareCountdown: nextFlareCountdown("device"),
-      flareFrames: 0,
-    });
-  }
-
-  return nodes;
 }
 
 export default function LedgerNetworkBackground({
@@ -283,7 +56,6 @@ export default function LedgerNetworkBackground({
   onBreakComplete?: () => void;
 } = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const nodesRef = useRef<NetworkNode[]>([]);
   const breakRef = useRef<BreakRuntime>({
     pending: false,
     startTime: null,
@@ -342,84 +114,38 @@ export default function LedgerNetworkBackground({
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
 
-      if (nodesRef.current.length === 0) {
-        nodesRef.current = createNetworkNodes(width, height);
-      }
-
       updateScroll();
     };
 
-    const startBreak = (timestamp: number) => {
-      const centerX = width * 0.5;
-      const centerY = height * 0.5;
-      const outerThreshold = Math.min(width, height) * 0.35;
-      const devices = nodesRef.current.filter((node) => node.kind === "device");
-      const eligibleDevices = devices.filter((node) => {
-        const x = node.xPct * width;
-        const y = node.yPct * height;
-        return distanceBetween(x, y, centerX, centerY) > outerThreshold;
-      });
-
-      const brokenDevices = (
-        eligibleDevices.length >= 3
-          ? shuffle(eligibleDevices)
-          : [...devices].sort((a, b) => {
-              const ax = a.xPct * width;
-              const ay = a.yPct * height;
-              const bx = b.xPct * width;
-              const by = b.yPct * height;
-              return (
-                distanceBetween(bx, by, centerX, centerY) -
-                distanceBetween(ax, ay, centerX, centerY)
-              );
-            })
-      )
-        .slice(0, 3)
-        .map((node) => node.id);
-
-      const evidenceNodes = nodesRef.current.filter((node) => node.kind === "evidence");
-      const brokenEvidence = [...evidenceNodes]
-        .sort((a, b) => {
-          const ax = a.xPct * width;
-          const ay = a.yPct * height;
-          const bx = b.xPct * width;
-          const by = b.yPct * height;
-
-          const distanceA = Math.min(
-            ...brokenDevices.map((deviceId) => {
-              const device = devices.find((item) => item.id === deviceId)!;
-              return distanceBetween(ax, ay, device.xPct * width, device.yPct * height);
-            })
-          );
-          const distanceB = Math.min(
-            ...brokenDevices.map((deviceId) => {
-              const device = devices.find((item) => item.id === deviceId)!;
-              return distanceBetween(bx, by, device.xPct * width, device.yPct * height);
-            })
-          );
-
-          return distanceA - distanceB;
-        })
-        .slice(0, 2)
-        .map((node) => node.id);
-
+    const beginBreak = (timestamp: number) => {
       breakRef.current = {
         pending: false,
         startTime: timestamp,
         restoreStartTime: null,
-        brokenDeviceIds: brokenDevices,
-        brokenEvidenceIds: brokenEvidence,
+        brokenDeviceIds: [],
+        brokenEvidenceIds: [],
         completionFired: false,
       };
     };
 
+    const drawRadialBlob = (
+      cx: number,
+      cy: number,
+      radius: number,
+      color: string
+    ) => {
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+      g.addColorStop(0, color);
+      g.addColorStop(1, GRADIENT_TRANSPARENT);
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, width, height);
+    };
+
     const draw = (timestamp: number) => {
-      const dtMs = Math.min(timestamp - lastTimestampRef.current, 50);
-      const dtFrames = dtMs / FRAME_MS;
       lastTimestampRef.current = timestamp;
 
       if (breakRef.current.pending && breakRef.current.startTime === null) {
-        startBreak(timestamp);
+        beginBreak(timestamp);
       }
 
       const breakRuntime = breakRef.current;
@@ -455,264 +181,55 @@ export default function LedgerNetworkBackground({
         }
       }
 
-      const coreX = width * 0.5;
-      const coreY = height * 0.5;
-      const sectionIntensity = getSectionIntensity(scrollYRef.current, height);
-      const evidenceWarmth = getEvidenceWarmth(scrollYRef.current, height);
-      const drawNodes: DrawNode[] = [];
-
-      for (const node of nodesRef.current) {
-        const behavior = getNodeBehavior(node, breakRef.current, timestamp);
-        const baseX = node.xPct * width;
-        const baseY = node.yPct * height;
-
-        if (!behavior.frozen) {
-          let nextX = baseX;
-          let nextY = baseY;
-
-          if (node.kind === "evidence") {
-            const dx = coreX - nextX;
-            const dy = coreY - nextY;
-            const distanceToCore = Math.hypot(dx, dy);
-
-            if (distanceToCore > 0.001) {
-              const acceleration = EVIDENCE_GRAVITY * distanceToCore * dtFrames;
-              node.vx += (dx / distanceToCore) * acceleration;
-              node.vy += (dy / distanceToCore) * acceleration;
-
-              const speed = Math.hypot(node.vx, node.vy);
-              if (speed > 0.4) {
-                node.vx = (node.vx / speed) * 0.4;
-                node.vy = (node.vy / speed) * 0.4;
-              }
-            }
-          }
-
-          nextX += node.vx * dtFrames;
-          nextY += node.vy * dtFrames;
-
-          const edgeRadius = Math.max(node.baseRadius, 2);
-          if (nextX <= edgeRadius) {
-            nextX = edgeRadius;
-            node.vx = Math.abs(node.vx);
-          } else if (nextX >= width - edgeRadius) {
-            nextX = width - edgeRadius;
-            node.vx = -Math.abs(node.vx);
-          }
-
-          if (nextY <= edgeRadius) {
-            nextY = edgeRadius;
-            node.vy = Math.abs(node.vy);
-          } else if (nextY >= height - edgeRadius) {
-            nextY = height - edgeRadius;
-            node.vy = -Math.abs(node.vy);
-          }
-
-          node.xPct = clamp(nextX / width, 0, 1);
-          node.yPct = clamp(nextY / height, 0, 1);
-        }
-
-        if (!behavior.cold) {
-          if (node.flareFrames > 0) {
-            node.flareFrames = Math.max(0, node.flareFrames - dtFrames);
-          } else {
-            node.flareCountdown -= dtFrames;
-            if (node.flareCountdown <= 0) {
-              node.flareFrames = FLARE_DURATION_FRAMES;
-              node.flareCountdown = nextFlareCountdown(node.kind);
-            }
-          }
-        } else {
-          node.flareFrames = 0;
-        }
-
-        const parallaxOffset =
-          node.kind === "device"
-            ? scrollYRef.current * DEVICE_SCROLL_OFFSET
-            : scrollYRef.current * EVIDENCE_SCROLL_OFFSET;
-        const drawX = node.xPct * width;
-        const drawY = node.yPct * height + parallaxOffset;
-        const baseColor = node.kind === "device" ? DEVICE_RGB : EVIDENCE_RGB;
-        const fillRgb = behavior.cold
-          ? mixRgb(COLD_RGB, baseColor, behavior.restoreProgress)
-          : baseColor;
-        const flareActive = node.flareFrames > 0;
-        const coldRadius = node.kind === "device" ? 1.5 : node.baseRadius;
-        const baseRadius = behavior.cold
-          ? lerp(coldRadius, node.baseRadius, behavior.restoreProgress)
-          : node.baseRadius;
-        const radius = flareActive ? Math.max(baseRadius, 4) : baseRadius;
-        const opacity =
-          (flareActive ? 1 : 0.75) *
-          (behavior.cold ? 1 : 1) *
-          behavior.flickerAlpha *
-          sectionIntensity;
-
-        drawNodes.push({
-          node,
-          x: drawX,
-          y: drawY,
-          radius,
-          opacity,
-          fillStyle: toRgba(fillRgb),
-          connectionMultiplier: behavior.connectionMultiplier,
-          averaOpacityMultiplier: behavior.averaOpacityMultiplier,
-          distanceToCore: distanceBetween(drawX, drawY, coreX, coreY),
-          flareActive,
-        });
-      }
-
-      ctx.clearRect(0, 0, width, height);
-
-      const warmGradient = ctx.createRadialGradient(
-        width * 0.5, height * 0.5, 0,
-        width * 0.5, height * 0.5, Math.min(width, height) * 0.55
-      );
-      warmGradient.addColorStop(0, `rgba(212, 167, 145, ${0.07 * evidenceWarmth})`);
-      warmGradient.addColorStop(0.4, `rgba(212, 167, 145, ${0.04 * evidenceWarmth})`);
-      warmGradient.addColorStop(0.75, `rgba(212, 167, 145, ${0.02 * evidenceWarmth})`);
-      warmGradient.addColorStop(1, "rgba(212, 167, 145, 0)");
-
-      ctx.fillStyle = warmGradient;
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = BG_FILL;
       ctx.fillRect(0, 0, width, height);
 
-      for (let index = 0; index < drawNodes.length; index += 1) {
-        const from = drawNodes[index];
+      const tau = Math.PI * 2;
+      const t = timestamp;
 
-        for (let innerIndex = index + 1; innerIndex < drawNodes.length; innerIndex += 1) {
-          const to = drawNodes[innerIndex];
-          const distance = distanceBetween(from.x, from.y, to.x, to.y);
+      ctx.globalCompositeOperation = "screen";
 
-          if (from.node.kind === "device" && to.node.kind === "device") {
-            if (distance >= CONNECTION_DISTANCE_DEVICE) continue;
-            const alpha =
-              (1 - distance / CONNECTION_DISTANCE_DEVICE) *
-              0.3 *
-              Math.min(from.connectionMultiplier, to.connectionMultiplier) *
-              sectionIntensity;
-            if (alpha <= 0.002) continue;
-            ctx.beginPath();
-            ctx.strokeStyle = toRgba([49, 87, 152], alpha);
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(from.x, from.y);
-            ctx.lineTo(to.x, to.y);
-            ctx.stroke();
-            continue;
-          }
+      const b1Angle = (tau * t) / BLOB1_CYCLE_MS;
+      const b1cx =
+        width * BLOB1_ORIGIN_X +
+        width * BLOB1_SWING_X * Math.cos(b1Angle);
+      const b1cy =
+        height * BLOB1_ORIGIN_Y +
+        height * BLOB1_SWING_Y * Math.sin(b1Angle);
+      drawRadialBlob(b1cx, b1cy, width * BLOB1_RADIUS_W, BLOB1_COLOR);
 
-          if (from.node.kind === "evidence" && to.node.kind === "evidence") {
-            if (distance >= CONNECTION_DISTANCE_EVIDENCE) continue;
-            const alpha =
-              (1 - distance / CONNECTION_DISTANCE_EVIDENCE) *
-              0.35 *
-              Math.min(from.connectionMultiplier, to.connectionMultiplier) *
-              sectionIntensity;
-            if (alpha <= 0.002) continue;
-            ctx.beginPath();
-            ctx.strokeStyle = toRgba(EVIDENCE_RGB, alpha);
-            ctx.lineWidth = 0.6;
-            ctx.moveTo(from.x, from.y);
-            ctx.lineTo(to.x, to.y);
-            ctx.stroke();
-            continue;
-          }
+      const b2Angle = (tau * t) / BLOB2_CYCLE_MS;
+      const b2cx =
+        width * BLOB2_ORIGIN_X +
+        width * BLOB2_SWING_X * Math.sin(b2Angle);
+      const b2cy =
+        height * BLOB2_ORIGIN_Y +
+        height * BLOB2_SWING_Y * Math.cos(b2Angle);
+      drawRadialBlob(b2cx, b2cy, width * BLOB2_RADIUS_W, BLOB2_COLOR);
 
-          if (distance >= 100) continue;
-          const alpha =
-            (1 - distance / 100) *
-            0.2 *
-            Math.min(from.connectionMultiplier, to.connectionMultiplier) *
-            sectionIntensity;
-          if (alpha <= 0.002) continue;
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(180, 155, 180, ${alpha})`;
-          ctx.lineWidth = 0.5;
-          ctx.moveTo(from.x, from.y);
-          ctx.lineTo(to.x, to.y);
-          ctx.stroke();
-        }
-      }
+      const driftAngle = (tau * t) / BLOB3_DRIFT_MS;
+      const b3cx =
+        width * 0.5 + width * BLOB3_DRIFT * Math.sin(driftAngle);
+      const b3cy =
+        height * 0.5 + height * BLOB3_DRIFT * Math.cos(driftAngle);
+      const pulse = (Math.sin((tau * t) / BLOB3_PULSE_MS) + 1) * 0.5;
+      const b3r = lerp(
+        width * BLOB3_RADIUS_MIN_W,
+        width * BLOB3_RADIUS_MAX_W,
+        pulse
+      );
+      drawRadialBlob(b3cx, b3cy, b3r, BLOB3_COLOR);
 
-      const averaCandidates = drawNodes
-        .filter((node) => node.distanceToCore < CONNECTION_DISTANCE_AVERA)
-        .map((node) => {
-          const isEvidence = node.node.kind === "evidence";
-          const alpha = isEvidence
-            ? 0.4 * node.averaOpacityMultiplier * sectionIntensity
-            : 0.25 * node.connectionMultiplier * sectionIntensity;
-
-          return { node, alpha };
-        })
-        .filter((item) => item.alpha > 0.005)
-        .sort((left, right) => left.node.distanceToCore - right.node.distanceToCore)
-        .slice(0, MAX_AVERA_CONNECTIONS);
-
-      for (const candidate of averaCandidates) {
-        ctx.beginPath();
-        ctx.strokeStyle =
-          candidate.node.node.kind === "evidence"
-            ? toRgba(EVIDENCE_RGB, candidate.alpha)
-            : toRgba(DEVICE_RGB, candidate.alpha);
-        ctx.lineWidth = candidate.node.node.kind === "evidence" ? 1 : 0.8;
-        ctx.moveTo(coreX, coreY);
-        ctx.lineTo(candidate.node.x, candidate.node.y);
-        ctx.stroke();
-      }
-
-      for (const drawNode of drawNodes) {
-        if (drawNode.flareActive) {
-          ctx.shadowBlur = (drawNode.node.kind === "evidence" ? 16 : 12) * sectionIntensity;
-          ctx.shadowColor =
-            drawNode.node.kind === "evidence"
-              ? toRgba(EVIDENCE_RGB, 0.65)
-              : toRgba(DEVICE_RGB, 0.5);
-        } else if (drawNode.node.kind === "evidence" && drawNode.connectionMultiplier > 0.2) {
-          ctx.shadowBlur = 10 * sectionIntensity;
-          ctx.shadowColor = toRgba(EVIDENCE_RGB, 0.28);
-        } else if (drawNode.node.kind === "device" && drawNode.connectionMultiplier > 0.2) {
-          ctx.shadowBlur = 8 * sectionIntensity;
-          ctx.shadowColor = toRgba(DEVICE_RGB, 0.22);
-        } else {
-          ctx.shadowBlur = 0;
-          ctx.shadowColor = "transparent";
-        }
-
-        ctx.globalAlpha = clamp(drawNode.opacity, 0, 1);
-        ctx.beginPath();
-        ctx.fillStyle = drawNode.fillStyle;
-        ctx.arc(drawNode.x, drawNode.y, drawNode.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-        ctx.shadowBlur = 0;
-        ctx.shadowColor = "transparent";
-      }
-
-      const pulseProgress = (timestamp % CORE_PULSE_LOOP_MS) / CORE_PULSE_LOOP_MS;
-      const pulseRadius = lerp(CORE_PULSE_MIN_RADIUS, CORE_PULSE_MAX_RADIUS, pulseProgress);
-      const pulseOpacity = lerp(0.4, 0, pulseProgress) * sectionIntensity;
-
-      ctx.beginPath();
-      ctx.strokeStyle = toRgba(EVIDENCE_RGB, pulseOpacity);
-      ctx.lineWidth = 1;
-      ctx.arc(coreX, coreY, pulseRadius, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.shadowBlur = 18 * sectionIntensity;
-      ctx.shadowColor = toRgba(EVIDENCE_RGB, 0.45);
-      ctx.beginPath();
-      ctx.fillStyle = "#D4A791";
-      ctx.arc(coreX, coreY, CORE_RADIUS, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.shadowColor = "transparent";
+      ctx.globalCompositeOperation = "source-over";
 
       animationFrame = requestAnimationFrame(draw);
     };
 
     resize();
     updateScroll();
-    animationFrame = requestAnimationFrame((timestamp) => {
-      lastTimestampRef.current = timestamp;
+    animationFrame = requestAnimationFrame((ts) => {
+      lastTimestampRef.current = ts;
       animationFrame = requestAnimationFrame(draw);
     });
 
