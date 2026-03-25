@@ -110,10 +110,9 @@ export default function HowItWorksPage() {
       <section style={{ borderBottom: "0.5px solid rgba(255,255,255,0.06)" }}>
         {steps.map((step, index) => (
           <div
+            className="grid grid-cols-1 md:grid-cols-[280px_1fr]"
             key={step.num}
             style={{
-              display: "grid",
-              gridTemplateColumns: "280px 1fr",
               borderBottom:
                 index < steps.length - 1
                   ? "0.5px solid rgba(255,255,255,0.06)"
@@ -121,9 +120,8 @@ export default function HowItWorksPage() {
             }}
           >
             <div
+              className="p-6 md:py-[40px] md:pl-[40px] md:pr-[32px] md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]"
               style={{
-                padding: "40px 32px 40px 40px",
-                borderRight: "0.5px solid rgba(255,255,255,0.07)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 10,
@@ -151,7 +149,7 @@ export default function HowItWorksPage() {
                 {step.title}
               </div>
             </div>
-            <div style={{ padding: "40px 48px" }}>
+            <div className="p-6 md:px-[48px] md:py-[40px]">
               <p
                 style={{
                   fontSize: 13,

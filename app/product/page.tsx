@@ -63,7 +63,7 @@ export default function ProductPage() {
           justifyContent: "flex-start",
         }}
       >
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 hidden md:block">
           <LedgerScene3D />
         </div>
         <div
@@ -74,8 +74,7 @@ export default function ProductPage() {
           }}
         />
         <div
-          className="relative z-10 max-w-[640px]"
-          style={{ padding: "0 64px 72px" }}
+          className="relative z-10 max-w-[640px] px-6 pb-14 md:px-[64px] md:pb-[72px]"
         >
           <p
             style={{
@@ -117,22 +116,16 @@ export default function ProductPage() {
 
       {/* Section 2 — Three primitives */}
       <section
+        className="grid grid-cols-1 md:grid-cols-3 md:[&>div:not(:last-child)]:[border-right:0.5px_solid_rgba(255,255,255,0.07)]"
         style={{
           width: "100%",
           background: "#08090f",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
           borderTop: "0.5px solid rgba(255,255,255,0.07)",
           borderBottom: "0.5px solid rgba(255,255,255,0.07)",
         }}
       >
         {/* Cell 1 */}
-        <div
-          style={{
-            padding: "36px 32px",
-            borderRight: "0.5px solid rgba(255,255,255,0.07)",
-          }}
-        >
+        <div className="p-6 md:px-[32px] md:py-[36px]">
           <div
             style={{
               height: "116px",
@@ -252,12 +245,7 @@ export default function ProductPage() {
         </div>
 
         {/* Cell 2 */}
-        <div
-          style={{
-            padding: "36px 32px",
-            borderRight: "0.5px solid rgba(255,255,255,0.07)",
-          }}
-        >
+        <div className="p-6 md:px-[32px] md:py-[36px]">
           <div
             style={{
               height: "116px",
@@ -371,7 +359,7 @@ export default function ProductPage() {
         </div>
 
         {/* Cell 3 */}
-        <div style={{ padding: "36px 32px" }}>
+        <div className="p-6 md:px-[32px] md:py-[36px]">
           <div
             style={{
               height: "116px",
@@ -489,21 +477,20 @@ export default function ProductPage() {
           </p>
         </div>
         <div
+          className="grid grid-cols-1 md:grid-cols-4"
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr 1fr",
             borderTop: "0.5px solid rgba(255,255,255,0.06)",
           }}
         >
           {GUARANTEE_CARDS.map((card, index) => (
             <div
+              className={`p-6 md:px-[28px] md:py-[24px] ${
+                index % 4 !== 3
+                  ? "md:[border-right:0.5px_solid_rgba(255,255,255,0.06)]"
+                  : ""
+              }`}
               key={card.title}
               style={{
-                padding: "24px 28px",
-                borderRight:
-                  index % 4 !== 3
-                    ? "0.5px solid rgba(255,255,255,0.06)"
-                    : undefined,
                 borderBottom:
                   index < 4
                     ? "0.5px solid rgba(255,255,255,0.06)"
@@ -570,18 +557,16 @@ export default function ProductPage() {
 
       {/* Section 3 — 2x2 panel grid */}
       <section
+        className="grid grid-cols-1 md:grid-cols-2"
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
           background: "#08090f",
           borderBottom: "0.5px solid rgba(255,255,255,0.07)",
         }}
       >
         {/* Panel 1 — Devices */}
         <div
+          className="p-6 md:px-[32px] md:py-[28px] md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]"
           style={{
-            padding: "28px 32px",
-            borderRight: "0.5px solid rgba(255,255,255,0.07)",
             borderBottom: "0.5px solid rgba(255,255,255,0.07)",
           }}
         >
@@ -757,8 +742,8 @@ export default function ProductPage() {
 
         {/* Panel 2 — Evidence */}
         <div
+          className="p-6 md:px-[32px] md:py-[28px]"
           style={{
-            padding: "28px 32px",
             borderBottom: "0.5px solid rgba(255,255,255,0.07)",
           }}
         >
@@ -915,10 +900,7 @@ export default function ProductPage() {
 
         {/* Panel 3 — Audit Query */}
         <div
-          style={{
-            padding: "28px 32px",
-            borderRight: "0.5px solid rgba(255,255,255,0.07)",
-          }}
+          className="p-6 md:px-[32px] md:py-[28px] md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]"
         >
           <div
             style={{
@@ -1050,7 +1032,7 @@ export default function ProductPage() {
         </div>
 
         {/* Panel 4 — Compliance */}
-        <div style={{ padding: "28px 32px" }}>
+        <div className="p-6 md:px-[32px] md:py-[28px]">
           <div
             style={{
               background: "#0c0e16",

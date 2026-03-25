@@ -80,7 +80,7 @@ export default function PricingPage() {
           <div style={eyebrow}>How it works</div>
           <div style={sectionTitle}>The pilot process.</div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+        <div className="grid grid-cols-1 md:grid-cols-3">
           {[
             {
               num: "01",
@@ -99,11 +99,9 @@ export default function PricingPage() {
             },
           ].map((step, i) => (
             <div
+              className="p-6 md:px-[36px] md:py-[32px] md:[&:not(:last-child)]:[border-right:0.5px_solid_rgba(255,255,255,0.06)]"
               key={step.num}
               style={{
-                padding: "32px 36px",
-                borderRight:
-                  i < 2 ? "0.5px solid rgba(255,255,255,0.06)" : "none",
                 position: "relative",
               }}
             >
@@ -172,7 +170,7 @@ export default function PricingPage() {
             comparison chart.
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+        <div className="grid grid-cols-1 md:grid-cols-3">
           {[
             {
               label: "Tier I",
@@ -191,13 +189,9 @@ export default function PricingPage() {
             },
           ].map((tier, i) => (
             <div
+              className="flex flex-col p-6 md:px-[36px] md:pb-[36px] md:pt-[32px] md:[&:not(:last-child)]:[border-right:0.5px_solid_rgba(255,255,255,0.06)]"
               key={tier.label}
               style={{
-                padding: "32px 36px 36px",
-                borderRight:
-                  i < 2 ? "0.5px solid rgba(255,255,255,0.06)" : "none",
-                display: "flex",
-                flexDirection: "column",
               }}
             >
               <div style={eyebrow}>{tier.label}</div>
@@ -265,10 +259,8 @@ export default function PricingPage() {
             Every tier includes
           </div>
           <div
+            className="grid grid-cols-2 gap-y-3 gap-x-4 md:grid-cols-6 md:gap-y-3 md:gap-x-4"
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
-              gap: "12px 16px",
               alignItems: "start",
               maxWidth: "1100px",
               margin: "0 auto",

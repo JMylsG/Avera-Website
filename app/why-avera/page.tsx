@@ -54,10 +54,9 @@ const sectionSub: React.CSSProperties = {
   lineHeight: 1.65,
 };
 const figRow: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
   borderBottom: "0.5px solid rgba(255,255,255,0.07)",
 };
+const figRowClass = "grid grid-cols-1 md:grid-cols-2";
 
 export default function WhyAveraPage() {
   /* ── Section 1 state ── */
@@ -159,11 +158,13 @@ export default function WhyAveraPage() {
           Every tool you&apos;re running was built to answer: what&apos;s happening now. None were built to answer: what happened, and can you prove it.
         </div>
       </div>
-      <div style={figRow}>
+      <div className={figRowClass} style={figRow}>
+        <div className="md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]">
         <FigPanel
           figLabel="REC. 1.1 — SCANNER OUTPUT"
           copyTitle="Snapshots expire the moment they're taken."
           copyBody="Scanners tell you what existed at the last scan. Networks change constantly. By the time an auditor asks, the record is already stale."
+          noBorderRight
         >
           <div style={{ ...darkBox, width: "260px" }}>
             <div style={monoLabel}>Last scan results</div>
@@ -193,6 +194,7 @@ export default function WhyAveraPage() {
             </div>
           </div>
         </FigPanel>
+        </div>
 
         <FigPanel
           figLabel="REC. 1.2 — AVERA LEDGER"
@@ -232,11 +234,13 @@ export default function WhyAveraPage() {
           Compliance data is not operational telemetry. It is evidence. The entity responsible for that evidence must control where it resides.
         </div>
       </div>
-      <div style={figRow}>
+      <div className={figRowClass} style={figRow}>
+        <div className="md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]">
         <FigPanel
           figLabel="REC. 2.1 — CLOUD-DEPENDENT TOOL"
           copyTitle="Someone else holds your evidence."
           copyBody="When compliance data transits outside your network, chain of custody becomes difficult to establish and harder to defend in front of auditors."
+          noBorderRight
         >
           <div style={{ ...darkBox, width: "270px" }}>
             <div style={monoLabel}>Outbound connections</div>
@@ -264,6 +268,7 @@ export default function WhyAveraPage() {
             ))}
           </div>
         </FigPanel>
+        </div>
 
         <FigPanel
           figLabel="REC. 2.2 — AVERA"
@@ -308,11 +313,13 @@ export default function WhyAveraPage() {
           Because it works at significant cost, there is no forcing function to replace it. The pain is attributed to staff, not to the architecture requiring it.
         </div>
       </div>
-      <div style={figRow}>
+      <div className={figRowClass} style={figRow}>
+        <div className="md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]">
         <FigPanel
           figLabel="REC. 3.1 — QUARTERLY RECONSTRUCTION"
           copyTitle="40+ hours. Every quarter. Same spreadsheet."
           copyBody="Manual reconstruction from DHCP logs, RMM exports, and staff interviews. Then repeat next quarter."
+          noBorderRight
         >
           <div style={{ background: "#0d1018", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: "7px", overflow: "hidden", width: "280px" }}>
             {/* Chrome bar */}
@@ -332,9 +339,7 @@ export default function WhyAveraPage() {
               </span>
             </div>
             {/* Column headers */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
+            <div className="grid grid-cols-1 md:grid-cols-3" style={{
               padding: "6px 10px",
               borderBottom: "0.5px solid rgba(255,255,255,0.06)",
               fontSize: "8px",
@@ -353,10 +358,9 @@ export default function WhyAveraPage() {
               { device: "192.168.1.47",      seen: "—",      status: "—",        highlight: false },
             ].map((row, i) => (
               <div
+                className="grid grid-cols-1 md:grid-cols-3"
                 key={row.device}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr 1fr",
                   padding: "5px 10px",
                   borderBottom: i < 3 ? "0.5px solid rgba(255,255,255,0.04)" : "none",
                   fontSize: "9px",
@@ -370,6 +374,7 @@ export default function WhyAveraPage() {
             ))}
           </div>
         </FigPanel>
+        </div>
 
         <FigPanel
           figLabel="REC. 3.2 — AVERA AUDIT QUERY"
@@ -435,11 +440,13 @@ export default function WhyAveraPage() {
           Avera is not a faster way to do what existing tools do. It is a different architectural layer.
         </div>
       </div>
-      <div style={figRow}>
+      <div className={figRowClass} style={figRow}>
+        <div className="md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]">
         <FigPanel
           figLabel="REC. 4.1 — IDENTITY CONTINUITY"
           copyTitle="The device stays the same device."
           copyBody="MAC changes. Hostname changes. Interface swaps. Avera correlates available signals to preserve continuity. The record does not reset."
+          noBorderRight
         >
           <div style={{ position: "relative", width: "100%", maxWidth: "300px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{ position: "absolute", left: "5%", right: "5%", height: "1px", background: "rgba(125,149,224,0.25)", top: "50%", transform: "translateY(-50%)" }} />
@@ -464,6 +471,7 @@ export default function WhyAveraPage() {
             </div>
           </div>
         </FigPanel>
+        </div>
 
         <FigPanel
           figLabel="REC. 4.2 — PERMANENCE"

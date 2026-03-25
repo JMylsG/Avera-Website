@@ -229,15 +229,14 @@ export default function TimelinePage() {
 
       {/* Section 2 — Roadmap */}
       <section
+        className="grid grid-cols-1 md:grid-cols-[280px_1fr]"
         style={{
-          display: "grid",
-          gridTemplateColumns: "280px 1fr",
           borderBottom: "0.5px solid rgba(255,255,255,0.06)",
         }}
       >
         <div
+          className="md:[border-right:0.5px_solid_rgba(255,255,255,0.07)]"
           style={{
-            borderRight: "0.5px solid rgba(255,255,255,0.07)",
           }}
         >
           {stages.map((stage, index) => {
@@ -335,7 +334,7 @@ export default function TimelinePage() {
           })}
         </div>
 
-        <div style={{ padding: "40px 48px" }}>
+        <div className="p-6 md:px-[48px] md:py-[40px]">
           <div
             style={{
               fontSize: 10,
@@ -465,7 +464,7 @@ export default function TimelinePage() {
             A look inside Avera v1.0 running on a live network.
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2">
           {[
             {
               src: "/app-home.png",
@@ -499,12 +498,15 @@ export default function TimelinePage() {
               borderRight: "none" as const,
               borderBottom: "none" as const,
             },
-          ].map((cell) => (
+          ].map((cell, index) => (
             <div
+              className={`p-6 md:px-[32px] md:py-[28px] ${
+                index % 2 === 0
+                  ? "md:[border-right:0.5px_solid_rgba(255,255,255,0.06)]"
+                  : ""
+              }`}
               key={cell.src}
               style={{
-                padding: "28px 32px",
-                borderRight: cell.borderRight,
                 borderBottom: cell.borderBottom,
               }}
             >

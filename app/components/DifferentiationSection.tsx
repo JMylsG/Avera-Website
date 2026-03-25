@@ -22,16 +22,15 @@ function Section15() {
   const { ref, vis } = useVisible();
   return (
     <section
+      className="grid grid-cols-1 md:grid-cols-2"
       ref={ref}
       style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
         background: "#08090f",
         borderBottom: "0.5px solid rgba(255,255,255,0.06)",
         minHeight: 460,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", borderRight: "0.5px solid rgba(255,255,255,0.05)", padding: "44px", background: "rgba(8,9,15,0.6)", opacity: vis ? 1 : 0, transition: "opacity 0.6s ease 0.1s" }}>
+      <div className="p-6 md:p-[44px] md:[border-right:0.5px_solid_rgba(255,255,255,0.05)]" style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,9,15,0.6)", opacity: vis ? 1 : 0, transition: "opacity 0.6s ease 0.1s" }}>
         <svg width="300" height="190" viewBox="0 0 300 190" fill="none">
           <rect x="20" y="15" width="260" height="24" rx="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.20)" strokeWidth="0.5"/>
           <text x="38" y="31" fill="rgba(255,255,255,0.50)" fontSize="7" fontFamily="monospace">JAN</text>
@@ -60,7 +59,7 @@ function Section15() {
           <text x="20" y="180" fill="rgba(255,255,255,0.35)" fontSize="7" fontFamily="monospace">14 devices · 12 approved · 2 pending · 0 gaps</text>
         </svg>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "60px 52px", borderLeft: "0.5px solid rgba(255,255,255,0.05)", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s" }}>
+      <div className="p-6 md:px-[52px] md:py-[60px] md:[border-left:0.5px_solid_rgba(255,255,255,0.05)]" style={{ display: "flex", flexDirection: "column", justifyContent: "center", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s" }}>
         <p style={{ fontSize: 9, fontFamily: "monospace", letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", marginBottom: 28 }}>Rec. 1.5 — The query</p>
         <h2 style={{ fontSize: 30, fontWeight: 500, lineHeight: 1.15, letterSpacing: "-0.015em", color: "#fff", marginBottom: 14 }}>
           When the auditor asks,<br />you don&apos;t call your team.<br />You query it.
@@ -79,16 +78,15 @@ function Section20() {
   const { ref, vis } = useVisible();
   return (
     <section
+      className="grid grid-cols-1 md:grid-cols-2"
       ref={ref}
       style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
         background: "#08090f",
         borderBottom: "0.5px solid rgba(255,255,255,0.06)",
         minHeight: 460,
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "60px 52px", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s" }}>
+      <div className="p-6 md:px-[52px] md:py-[60px]" style={{ display: "flex", flexDirection: "column", justifyContent: "center", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s" }}>
         <p style={{ fontSize: 9, fontFamily: "monospace", letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", marginBottom: 28 }}>Rec. 2.0 — Identity</p>
         <h2 style={{ fontSize: 30, fontWeight: 500, lineHeight: 1.15, letterSpacing: "-0.015em", color: "#fff", marginBottom: 14 }}>
           The device stays<br />the same device.
@@ -99,7 +97,7 @@ function Section20() {
           The record does not reset when attributes do.
         </p>
       </div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", borderLeft: "0.5px solid rgba(255,255,255,0.05)", padding: "44px", background: "rgba(8,9,15,0.6)", opacity: vis ? 1 : 0, transition: "opacity 0.6s ease 0.2s" }}>
+      <div className="p-6 md:p-[44px] md:[border-left:0.5px_solid_rgba(255,255,255,0.05)]" style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,9,15,0.6)", opacity: vis ? 1 : 0, transition: "opacity 0.6s ease 0.2s" }}>
         <svg width="280" height="220" viewBox="0 0 280 220" fill="none">
           <circle cx="140" cy="105" r="28" fill="rgba(49,87,152,0.22)" stroke="rgba(125,149,224,0.60)" strokeWidth="0.8"/>
           <circle cx="140" cy="105" r="18" fill="rgba(49,87,152,0.30)" stroke="rgba(125,149,224,0.65)" strokeWidth="0.5"/>
@@ -136,16 +134,15 @@ function Section25() {
   const { ref, vis } = useVisible();
   return (
     <section
+      className="grid grid-cols-1 md:grid-cols-2"
       ref={ref}
       style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
         background: "#08090f",
         borderBottom: "0.5px solid rgba(255,255,255,0.06)",
         minHeight: 460,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", borderRight: "0.5px solid rgba(255,255,255,0.05)", padding: "44px", background: "rgba(8,9,15,0.6)", opacity: vis ? 1 : 0, transition: "opacity 0.6s ease 0.1s" }}>
+      <div className="p-6 md:p-[44px] md:[border-right:0.5px_solid_rgba(255,255,255,0.05)]" style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(8,9,15,0.6)", opacity: vis ? 1 : 0, transition: "opacity 0.6s ease 0.1s" }}>
         <svg width="300" height="200" viewBox="0 0 300 200" fill="none">
           <text x="75" y="18" fill="rgba(255,255,255,0.55)" fontSize="8" fontFamily="monospace" textAnchor="middle" letterSpacing="1">BEFORE</text>
           <rect x="20" y="26" width="110" height="16" rx="2" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.22)" strokeWidth="0.5"/>
@@ -172,7 +169,7 @@ function Section25() {
           <text x="150" y="170" fill="rgba(255,255,255,0.25)" fontSize="8" fontFamily="monospace" textAnchor="middle" letterSpacing="1">SAME DEVICE · UNINTERRUPTED RECORD</text>
         </svg>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "60px 52px", borderLeft: "0.5px solid rgba(255,255,255,0.05)", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s" }}>
+      <div className="p-6 md:px-[52px] md:py-[60px] md:[border-left:0.5px_solid_rgba(255,255,255,0.05)]" style={{ display: "flex", flexDirection: "column", justifyContent: "center", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s" }}>
         <p style={{ fontSize: 9, fontFamily: "monospace", letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", marginBottom: 28 }}>Rec. 2.5 — Continuity</p>
         <h2 style={{ fontSize: 30, fontWeight: 500, lineHeight: 1.15, letterSpacing: "-0.015em", color: "#fff", marginBottom: 14 }}>
           Reimaged. Reconnected.<br />Still the same record.

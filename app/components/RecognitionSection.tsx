@@ -19,21 +19,20 @@ export default function RecognitionSection() {
 
   return (
     <section
+      className="grid grid-cols-1 md:grid-cols-2"
       ref={ref}
       style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
         background: "#08090f",
         borderBottom: "0.5px solid rgba(255,255,255,0.06)",
         minHeight: 460,
       }}
     >
       <div
+        className="p-6 md:px-[52px] md:py-[60px]"
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "60px 52px",
           opacity: vis ? 1 : 0,
           transform: vis ? "translateY(0)" : "translateY(20px)",
           transition: "opacity 0.6s ease, transform 0.6s ease",
@@ -54,12 +53,11 @@ export default function RecognitionSection() {
         </p>
       </div>
       <div
+        className="p-6 md:p-[44px] md:[border-left:0.5px_solid_rgba(255,255,255,0.05)]"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderLeft: "0.5px solid rgba(255,255,255,0.05)",
-          padding: "44px",
           background: "rgba(8,9,15,0.6)",
           opacity: vis ? 1 : 0,
           transition: "opacity 0.6s ease 0.15s",
