@@ -540,6 +540,19 @@ export default function WhyAveraPage() {
         >
           Request a Demo
         </Link>
+        <a
+          href="/avera-white-paper.pdf"
+          download
+          style={{
+            fontSize: "13px",
+            color: "rgba(255,255,255,0.38)",
+            textDecoration: "none",
+            transition: "color 0.3s",
+          }}
+          className="hover:text-white"
+        >
+          Read the White Paper →
+        </a>
       </div>
 
       <style>{`

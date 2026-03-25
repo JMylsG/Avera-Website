@@ -38,6 +38,45 @@ const GUARANTEE_CARDS = [
   },
 ];
 
+const MOBILE_LEDGER_DEVICES = [
+  { dot: "approved", name: "dr-smith-laptop", tag: "approved" },
+  { dot: "approved", name: "reception-pc-01", tag: "approved" },
+  { dot: "pending", name: "00:1A:2B:3C:4D:5E", tag: "pending" },
+];
+
+const MOBILE_LEDGER_EVIDENCE = [
+  {
+    hash: "a3f…091",
+    highlight: true,
+    text: "Device observed on clinical subnet",
+    seq: "#198",
+  },
+  {
+    hash: "7c2…44d",
+    highlight: false,
+    text: "Authorization granted · admin@clinic",
+    seq: "#199",
+  },
+  {
+    hash: "f3c…bb2",
+    highlight: true,
+    text: "Compliance record generated · HIPAA",
+    seq: "#201",
+  },
+];
+
+const MOBILE_LEDGER_HASH_CHAIN = [
+  { value: "b9e…f12", terra: false },
+  { value: "2d1…c88", terra: true },
+  { value: "4b7…d92", terra: false },
+];
+
+const MOBILE_LEDGER_QUERY = {
+  line: "devices on Mar 15",
+  time: "12 ms · seq #211",
+  result: "14 devices · 2 pending",
+};
+
 export default function ProductPage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#08090f" }}>
@@ -49,18 +88,193 @@ export default function ProductPage() {
         .product-pending-dot {
           animation: product-pulse 1.8s ease-in-out infinite;
         }
+        .product-ledger-strip {
+          display: flex;
+          gap: 12px;
+          overflow-x: auto;
+          padding: 0 24px 24px;
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        .product-ledger-strip::-webkit-scrollbar {
+          display: none;
+        }
+        .product-ledger-card {
+          width: 224px;
+          flex-shrink: 0;
+          background: #0d1018;
+          border: 0.5px solid rgba(125,149,224,0.22);
+          border-radius: 6px;
+          padding: 10px 12px;
+          box-sizing: border-box;
+        }
+        .product-ledger-card-hash {
+          width: 176px;
+        }
+        .product-ledger-label-dev {
+          font-size: 8px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: rgba(125,149,224,0.5);
+          margin-bottom: 8px;
+          font-family: ui-monospace, monospace;
+        }
+        .product-ledger-label-ev {
+          font-size: 8px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: rgba(212,167,145,0.5);
+          margin-bottom: 8px;
+          font-family: ui-monospace, monospace;
+        }
+        .product-ledger-dev-row,
+        .product-ledger-ev-row {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          border-bottom: 0.5px solid rgba(255,255,255,0.04);
+        }
+        .product-ledger-dev-row {
+          padding: 4px 0;
+        }
+        .product-ledger-ev-row {
+          padding: 3px 0;
+        }
+        .product-ledger-dev-row:last-child,
+        .product-ledger-ev-row:last-child {
+          border-bottom: none;
+        }
+        .product-ledger-dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 999px;
+          flex-shrink: 0;
+        }
+        .product-ledger-dot-approved {
+          background: #4caf79;
+        }
+        .product-ledger-dot-pending {
+          background: #e6a23c;
+          animation: product-pulse 1.8s ease-in-out infinite;
+        }
+        .product-ledger-dot-unknown {
+          background: rgba(255,255,255,0.2);
+        }
+        .product-ledger-dev-name {
+          font-size: 8px;
+          font-family: ui-monospace, monospace;
+          color: rgba(255,255,255,0.6);
+          flex: 1;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .product-ledger-tag {
+          font-size: 7px;
+          padding: 1px 5px;
+          border-radius: 2px;
+          white-space: nowrap;
+          flex-shrink: 0;
+          font-family: ui-monospace, monospace;
+        }
+        .product-ledger-tag-approved {
+          color: rgba(76,175,121,0.9);
+          background: rgba(76,175,121,0.1);
+        }
+        .product-ledger-tag-pending {
+          color: rgba(230,162,60,0.9);
+          background: rgba(230,162,60,0.1);
+        }
+        .product-ledger-tag-unknown {
+          color: rgba(255,255,255,0.22);
+          background: rgba(255,255,255,0.05);
+        }
+        .product-ledger-ev-hash {
+          width: 48px;
+          flex-shrink: 0;
+          font-size: 8px;
+          font-family: ui-monospace, monospace;
+          color: rgba(212,167,145,0.5);
+        }
+        .product-ledger-ev-hash-highlight {
+          color: rgba(212,167,145,0.75);
+        }
+        .product-ledger-ev-text {
+          flex: 1;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 9px;
+          color: rgba(255,255,255,0.5);
+        }
+        .product-ledger-ev-seq {
+          flex-shrink: 0;
+          font-size: 8px;
+          font-family: ui-monospace, monospace;
+          color: rgba(255,255,255,0.18);
+        }
+        .product-ledger-hash-row {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          flex-wrap: wrap;
+        }
+        .product-ledger-hash-block {
+          background: #111520;
+          border: 0.5px solid rgba(125,149,224,0.2);
+          border-radius: 3px;
+          padding: 4px 7px;
+          font-size: 7px;
+          font-family: ui-monospace, monospace;
+          color: rgba(125,149,224,0.7);
+        }
+        .product-ledger-hash-block-terra {
+          border-color: rgba(212,167,145,0.3);
+          color: rgba(212,167,145,0.75);
+        }
+        .product-ledger-hash-arrow {
+          font-size: 9px;
+          color: rgba(255,255,255,0.15);
+          font-family: ui-monospace, monospace;
+        }
+        .product-ledger-q-line {
+          font-size: 9px;
+          font-family: ui-monospace, monospace;
+          padding: 3px 7px;
+          border-radius: 2px;
+          background: rgba(125,149,224,0.08);
+          color: rgba(125,149,224,0.85);
+          border-left: 1.5px solid rgba(125,149,224,0.45);
+          margin-bottom: 4px;
+        }
+        .product-ledger-q-time {
+          font-size: 7px;
+          color: rgba(255,255,255,0.18);
+          padding: 1px 7px;
+          font-family: ui-monospace, monospace;
+          margin-bottom: 3px;
+        }
+        .product-ledger-q-result {
+          font-size: 9px;
+          font-family: ui-monospace, monospace;
+          padding: 3px 7px;
+          border-radius: 2px;
+          background: rgba(212,167,145,0.07);
+          color: rgba(212,167,145,0.8);
+          border-left: 1.5px solid rgba(212,167,145,0.4);
+        }
       `}</style>
       <Navbar />
 
       {/* Section 1 — Hero */}
       <section
-        className="relative w-full overflow-hidden"
+        className="relative flex w-full flex-col justify-end overflow-hidden md:flex-row md:items-end md:justify-start"
         style={{
           minHeight: "88vh",
           background: "#08090f",
           display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "flex-start",
         }}
       >
         <div className="absolute inset-0 hidden md:block">
@@ -111,6 +325,89 @@ export default function ProductPage() {
             is a system of record; where history is the core product, not a
             byproduct of security, operations, or compliance workflow.
           </p>
+        </div>
+        <div
+          className="relative z-10 w-full md:hidden"
+          style={{ touchAction: "pan-x" }}
+        >
+          <div className="product-ledger-strip">
+            <div className="product-ledger-card">
+              <div className="product-ledger-label-dev">Devices</div>
+              {MOBILE_LEDGER_DEVICES.map((device) => (
+                <div className="product-ledger-dev-row" key={device.name}>
+                  <span
+                    className={`product-ledger-dot ${
+                      device.dot === "pending"
+                        ? "product-ledger-dot-pending"
+                        : device.dot === "approved"
+                          ? "product-ledger-dot-approved"
+                          : "product-ledger-dot-unknown"
+                    }`}
+                  />
+                  <span className="product-ledger-dev-name">{device.name}</span>
+                  <span
+                    className={`product-ledger-tag ${
+                      device.tag === "pending"
+                        ? "product-ledger-tag-pending"
+                        : device.tag === "approved"
+                          ? "product-ledger-tag-approved"
+                          : "product-ledger-tag-unknown"
+                    }`}
+                  >
+                    {device.tag}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="product-ledger-card">
+              <div className="product-ledger-label-ev">Evidence</div>
+              {MOBILE_LEDGER_EVIDENCE.map((item) => (
+                <div className="product-ledger-ev-row" key={item.seq}>
+                  <span
+                    className={`product-ledger-ev-hash ${
+                      item.highlight ? "product-ledger-ev-hash-highlight" : ""
+                    }`}
+                  >
+                    {item.hash}
+                  </span>
+                  <span className="product-ledger-ev-text">{item.text}</span>
+                  <span className="product-ledger-ev-seq">{item.seq}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="product-ledger-card product-ledger-card-hash">
+              <div className="product-ledger-hash-row">
+                {MOBILE_LEDGER_HASH_CHAIN.map((item, index) => (
+                  <span key={item.value}>
+                    <span
+                      className={`product-ledger-hash-block ${
+                        item.terra ? "product-ledger-hash-block-terra" : ""
+                      }`}
+                    >
+                      {item.value}
+                    </span>
+                    {index < MOBILE_LEDGER_HASH_CHAIN.length - 1 && (
+                      <span className="product-ledger-hash-arrow">→</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="product-ledger-card">
+              <div className="product-ledger-q-line">
+                {MOBILE_LEDGER_QUERY.line}
+              </div>
+              <div className="product-ledger-q-time">
+                {MOBILE_LEDGER_QUERY.time}
+              </div>
+              <div className="product-ledger-q-result">
+                {MOBILE_LEDGER_QUERY.result}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1281,6 +1578,19 @@ export default function ProductPage() {
         >
           Request a Demo
         </Link>
+        <a
+          href="/avera-white-paper.pdf"
+          download
+          style={{
+            fontSize: "13px",
+            color: "rgba(255,255,255,0.38)",
+            textDecoration: "none",
+            transition: "color 0.3s",
+          }}
+          className="hover:text-white"
+        >
+          Read the White Paper →
+        </a>
         <p
           style={{
             fontSize: "11px",
