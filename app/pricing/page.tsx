@@ -227,51 +227,6 @@ export default function PricingPage() {
                   marginBottom: "20px",
                 }}
               />
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "rgba(125,149,224,0.7)",
-                  marginBottom: "20px",
-                }}
-              >
-                Pilot pricing available
-              </div>
-              <div
-                style={{
-                  fontSize: "9px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                  color: "rgba(255,255,255,0.2)",
-                  marginBottom: "10px",
-                }}
-              >
-                Includes
-              </div>
-              {tierFeatures.map((f) => (
-                <div
-                  key={f}
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: 8,
-                    fontSize: "11px",
-                    color: "rgba(255,255,255,0.45)",
-                    marginBottom: "7px",
-                  }}
-                >
-                  <span
-                    style={{
-                      color: "#4caf79",
-                      fontSize: "10px",
-                      flexShrink: 0,
-                      marginTop: "1px",
-                    }}
-                  >
-                    ✓
-                  </span>
-                  <span>{f}</span>
-                </div>
-              ))}
               <Link
                 href="/apply"
                 className="hover:bg-[rgba(125,149,224,0.08)] transition-colors duration-200"
@@ -293,6 +248,60 @@ export default function PricingPage() {
               </Link>
             </div>
           ))}
+        </div>
+        <div
+          style={{
+            padding: "28px 40px 32px",
+            borderTop: "0.5px solid rgba(255,255,255,0.06)",
+          }}
+        >
+          <div
+            style={{
+              ...eyebrow,
+              textAlign: "center",
+              marginBottom: 18,
+            }}
+          >
+            Every tier includes
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+              gap: "12px 16px",
+              alignItems: "start",
+              maxWidth: "1100px",
+              margin: "0 auto",
+            }}
+          >
+            {tierFeatures.map((f) => (
+              <div
+                key={f}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                  gap: 6,
+                  fontSize: "11px",
+                  color: "rgba(255,255,255,0.42)",
+                  lineHeight: 1.45,
+                  textAlign: "left",
+                }}
+              >
+                <span
+                  style={{
+                    color: "#4caf79",
+                    fontSize: "10px",
+                    flexShrink: 0,
+                    marginTop: "1px",
+                  }}
+                >
+                  ✓
+                </span>
+                <span>{f}</span>
+              </div>
+            ))}
+          </div>
         </div>
         <div
           style={{

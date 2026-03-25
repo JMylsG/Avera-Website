@@ -15,6 +15,7 @@ export default function ApplyPage() {
   const [userEmail, setUserEmail] = useState("");
   const [sessionLoading, setSessionLoading] = useState(true);
   const [deviceAnswer, setDeviceAnswer] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
@@ -45,7 +46,7 @@ export default function ApplyPage() {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: userEmail, deviceAnswer }),
+        body: JSON.stringify({ email: userEmail, deviceAnswer, website: honeypot }),
       });
 
       if (res.ok) {
@@ -93,6 +94,16 @@ export default function ApplyPage() {
               </p>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
                 <div className="flex flex-col gap-1.5">
                   <label className="text-gray-400 text-sm">Email</label>
                   <input

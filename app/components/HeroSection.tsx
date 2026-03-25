@@ -48,54 +48,57 @@ export default function HeroSection({
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/80 to-transparent" />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
-        <div className="relative overflow-hidden rounded-[2rem] border border-[#7D95E0]/[0.08] bg-[#0a0f1a]/30 px-6 py-12 backdrop-blur-[1px] md:px-12 md:py-16">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.02] via-transparent to-[#315798]/[0.04]" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_30%_at_50%_24%,rgba(125,149,224,0.12),transparent_70%)]" />
+        <div className="relative mx-auto max-w-4xl text-center">
+          <p
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "rgba(125,149,224,0.55)",
+              marginBottom: 14,
+            }}
+          >
+            Compliance Infrastructure
+          </p>
 
-          <div className="relative mx-auto max-w-4xl text-center">
-            <div className="mb-8 inline-flex items-center rounded-full border border-[#7D95E0]/35 bg-[#7D95E0]/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.22em] text-[#7D95E0]">
-              Compliance Infrastructure
-            </div>
+          <h1 className="mb-8 text-4xl font-medium leading-tight tracking-tight text-white md:text-6xl">
+            Every device.
+            <br />
+            Verified. Always.
+          </h1>
 
-            <h1 className="mb-8 text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl">
-              Every device.
-              <br />
-              Verified. Always.
-            </h1>
-
-            <div className="relative min-h-[72px]">
-              <p
-                className={`absolute inset-x-0 text-center text-lg text-white/55 transition-opacity duration-700 ease-out ${
-                  breakTriggered ? "opacity-0 delay-[1800ms]" : "opacity-100"
-                }`}
-              >
-                Your network has a record. Until it doesn&apos;t.
-              </p>
-
-              <div
-                className={`absolute inset-x-0 text-center transition-all duration-[600ms] ${
-                  showPostBreak ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-                }`}
-              >
-                <p className="text-lg font-bold text-[#D4A791]">The record broke.</p>
-                <p className="mt-1 text-lg italic text-white/45">
-                  Every audit downstream just became reconstruction.
-                </p>
-              </div>
-            </div>
-
-            <div
-              className={`mt-10 transition-all duration-[600ms] ${
-                showCTA ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+          <div className="relative min-h-[72px]">
+            <p
+              className={`absolute inset-x-0 text-center text-lg text-white/55 transition-opacity duration-700 ease-out ${
+                breakTriggered ? "opacity-0 delay-[1800ms]" : "opacity-100"
               }`}
             >
-              <Link
-                href="/demo"
-                className="inline-block rounded-full bg-[#315798] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-[#7D95E0] hover:shadow-[0_12px_32px_rgba(49,87,152,0.35)]"
-              >
-                See how Avera holds the chain
-              </Link>
+              Your network has a record. Until it doesn&apos;t.
+            </p>
+
+            <div
+              className={`absolute inset-x-0 text-center transition-all duration-[600ms] ${
+                showPostBreak ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+              }`}
+            >
+              <p className="text-lg font-bold text-[#D4A791]">The record broke.</p>
+              <p className="mt-1 text-lg italic text-white/45">
+                Every audit downstream just became reconstruction.
+              </p>
             </div>
+          </div>
+
+          <div
+            className={`mt-10 transition-all duration-[600ms] ${
+              showCTA ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+            }`}
+          >
+            <Link
+              href="/demo"
+              className="inline-block rounded-full bg-[#315798] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-[#7D95E0] hover:shadow-[0_12px_32px_rgba(49,87,152,0.35)]"
+            >
+              See how Avera holds the chain
+            </Link>
           </div>
         </div>
       </div>

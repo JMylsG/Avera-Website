@@ -49,6 +49,7 @@ export default function ContactPage() {
   const [email, setEmail] = useState("");
   const [organization, setOrganization] = useState("");
   const [message, setMessage] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -62,7 +63,7 @@ export default function ContactPage() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, organization, message }),
+        body: JSON.stringify({ name, email, organization, message, website: honeypot }),
       });
 
       if (res.ok) {
@@ -158,6 +159,16 @@ export default function ContactPage() {
                 </p>
               ) : (
                 <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
                   <div>
                     <label style={labelStyle}>Name</label>
                     <input

@@ -35,6 +35,7 @@ export default function DemoPage() {
   const [email, setEmail] = useState("");
   const [deviceCount, setDeviceCount] = useState("1–50");
   const [complianceProcess, setComplianceProcess] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -48,7 +49,14 @@ export default function DemoPage() {
       const res = await fetch("/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, organization, email, deviceCount, complianceProcess }),
+        body: JSON.stringify({
+          fullName,
+          organization,
+          email,
+          deviceCount,
+          complianceProcess,
+          website: honeypot,
+        }),
       });
 
       if (res.ok) {
@@ -117,6 +125,16 @@ export default function DemoPage() {
           ) : (
             <div style={cardStyle}>
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
                 <div>
                   <label style={labelStyle}>Full Name</label>
                   <input

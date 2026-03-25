@@ -3,63 +3,99 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function RecognitionSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  const [vis, setVis] = useState(false);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
-          setIsVisible(true);
-          setHasAnimated(true);
-        }
-      },
-      { threshold: 0.2 }
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } },
+      { threshold: 0.15 }
     );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [hasAnimated]);
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <section
-      ref={sectionRef}
-      className="relative flex min-h-screen flex-col items-center justify-center px-6 py-24"
+      ref={ref}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        background: "#08090f",
+        borderBottom: "0.5px solid rgba(255,255,255,0.06)",
+        minHeight: 460,
+      }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0f1a]/10 via-[#0a0f1a]/45 to-[#0a0f1a]/25" />
       <div
-        className={`relative w-full max-w-3xl rounded-[1.75rem] border border-[#7D95E0]/15 bg-[#0a0f1a]/55 px-6 py-10 text-center transition-all duration-[600ms] ease-out md:px-10 ${
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-        }`}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: "60px 52px",
+          opacity: vis ? 1 : 0,
+          transform: vis ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.6s ease, transform 0.6s ease",
+        }}
       >
-        <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#7D95E0]/35 to-transparent" />
-        <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">
-          The reason you rebuild every quarter isn&apos;t effort. It&apos;s{" "}
-          <span className="text-[#D4A791]">architecture</span>.
-        </h2>
-
-        <p className="mx-auto mt-6 max-w-[560px] text-base leading-relaxed text-white/60">
-          RMMs, SIEMs, scanners. Every tool you&apos;re running was built to
-          answer: what&apos;s happening now. None of them were built to answer:
-          what happened, and can you prove it. That&apos;s not a workflow gap.
-          That&apos;s a structural one.
+        <p style={{ fontSize: 9, fontFamily: "monospace", letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", marginBottom: 28 }}>
+          Rec. 1.0 — The record
         </p>
-
-        <blockquote className="mx-auto mt-12 max-w-[500px] rounded-xl border border-[rgba(212,167,145,0.35)] bg-[#1a120e]/45 px-5 py-4 text-left">
-          <p className="text-base italic leading-relaxed text-white/80">
-            &quot;We spend two weeks every quarter doing something we&apos;ve
-            already done three times before. Same clinics, same process, same
-            spreadsheets. The only thing that changes is the date on the
-            report.&quot;
-          </p>
-          <p className="mt-2 text-sm font-medium text-[#D4A791]">
-            MSP owner, 12 healthcare practices
-          </p>
-        </blockquote>
+        <h2 style={{ fontSize: 30, fontWeight: 500, lineHeight: 1.15, letterSpacing: "-0.015em", color: "#fff", marginBottom: 14 }}>
+          History that<br />never resets.
+        </h2>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 340 }}>
+          Every device observation is recorded the moment it happens. Not at
+          the next scan. Not at the next audit.{" "}
+          <span style={{ color: "#D4A791" }}>
+            The record exists before anyone asks for it.
+          </span>
+        </p>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderLeft: "0.5px solid rgba(255,255,255,0.05)",
+          padding: "44px",
+          background: "rgba(8,9,15,0.6)",
+          opacity: vis ? 1 : 0,
+          transition: "opacity 0.6s ease 0.15s",
+        }}
+      >
+        <svg width="320" height="190" viewBox="0 0 320 190" fill="none">
+          <line x1="30" y1="80" x2="290" y2="80" stroke="rgba(125,149,224,0.35)" strokeWidth="1"/>
+          <line x1="30" y1="80" x2="240" y2="80" stroke="rgba(125,149,224,0.85)" strokeWidth="1.5" strokeDasharray="4 3">
+            <animate attributeName="stroke-dashoffset" values="0;-28" dur="1.8s" repeatCount="indefinite"/>
+          </line>
+          <circle cx="70" cy="80" r="5" fill="#7D95E0" opacity="0.9"/>
+          <circle cx="120" cy="80" r="5" fill="#7D95E0" opacity="0.9"/>
+          <circle cx="170" cy="80" r="7" fill="#D4A791"/>
+          <circle cx="220" cy="80" r="5" fill="#7D95E0" opacity="0.9"/>
+          <circle cx="270" cy="80" r="5" fill="#7D95E0" opacity="0.35"/>
+          <text x="70" y="63" fill="rgba(255,255,255,0.65)" fontSize="8" fontFamily="monospace" textAnchor="middle">device on</text>
+          <text x="120" y="63" fill="rgba(255,255,255,0.65)" fontSize="8" fontFamily="monospace" textAnchor="middle">approved</text>
+          <text x="170" y="58" fill="rgba(212,167,145,1)" fontSize="8" fontFamily="monospace" textAnchor="middle">new device</text>
+          <text x="220" y="63" fill="rgba(255,255,255,0.65)" fontSize="8" fontFamily="monospace" textAnchor="middle">verified</text>
+          <rect x="48" y="98" width="48" height="16" rx="2" fill="rgba(125,149,224,0.14)" stroke="rgba(125,149,224,0.45)" strokeWidth="0.5"/>
+          <text x="72" y="110" fill="rgba(125,149,224,0.85)" fontSize="7" fontFamily="monospace" textAnchor="middle">a3f…091</text>
+          <text x="100" y="110" fill="rgba(255,255,255,0.45)" fontSize="8" textAnchor="middle">→</text>
+          <rect x="108" y="98" width="48" height="16" rx="2" fill="rgba(125,149,224,0.14)" stroke="rgba(125,149,224,0.45)" strokeWidth="0.5"/>
+          <text x="132" y="110" fill="rgba(125,149,224,0.85)" fontSize="7" fontFamily="monospace" textAnchor="middle">7c2…44d</text>
+          <text x="160" y="110" fill="rgba(255,255,255,0.45)" fontSize="8" textAnchor="middle">→</text>
+          <rect x="168" y="98" width="48" height="16" rx="2" fill="rgba(212,167,145,0.14)" stroke="rgba(212,167,145,0.55)" strokeWidth="0.5"/>
+          <text x="192" y="110" fill="rgba(212,167,145,0.95)" fontSize="7" fontFamily="monospace" textAnchor="middle">b9e…f12</text>
+          <text x="220" y="110" fill="rgba(255,255,255,0.45)" fontSize="8" textAnchor="middle">→</text>
+          <rect x="228" y="98" width="48" height="16" rx="2" fill="rgba(125,149,224,0.10)" stroke="rgba(125,149,224,0.30)" strokeWidth="0.5"/>
+          <text x="252" y="110" fill="rgba(125,149,224,0.65)" fontSize="7" fontFamily="monospace" textAnchor="middle">2d1…c88</text>
+          <line x1="70" y1="85" x2="70" y2="98" stroke="rgba(255,255,255,0.22)" strokeWidth="0.5"/>
+          <line x1="120" y1="85" x2="132" y2="98" stroke="rgba(255,255,255,0.22)" strokeWidth="0.5"/>
+          <line x1="170" y1="87" x2="192" y2="98" stroke="rgba(212,167,145,0.40)" strokeWidth="0.5"/>
+          <line x1="220" y1="85" x2="252" y2="98" stroke="rgba(255,255,255,0.22)" strokeWidth="0.5"/>
+          <text x="160" y="152" fill="rgba(255,255,255,0.25)" fontSize="8" fontFamily="monospace" textAnchor="middle" letterSpacing="2">APPEND · ONLY · IMMUTABLE</text>
+        </svg>
       </div>
     </section>
   );

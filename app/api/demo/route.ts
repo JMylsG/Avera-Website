@@ -33,6 +33,10 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
+    if (body.website) {
+      return Response.json({ success: true });
+    }
+
     const fullName = body.fullName?.trim();
     const organization = body.organization?.trim();
     const email = body.email?.trim();

@@ -33,6 +33,10 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
+    if (body.website) {
+      return Response.json({ success: true });
+    }
+
     const email = body.email?.trim();
     const deviceAnswer = body.deviceAnswer?.trim();
 
