@@ -47,8 +47,8 @@ export default function HeroSection({
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0a0f1a] via-[#0a0f1a]/75 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/80 to-transparent" />
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl">
-        <div className="relative mx-auto max-w-4xl text-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl">
+        <div className="relative mx-auto max-w-6xl text-center">
           <p
             style={{
               fontSize: 10,
@@ -61,7 +61,7 @@ export default function HeroSection({
             Compliance Infrastructure
           </p>
 
-          <h1 className="mb-8 text-4xl font-medium leading-tight tracking-tight text-white md:text-6xl">
+          <h1 className="mb-10 text-5xl font-medium leading-tight tracking-tight text-white md:text-6xl lg:text-7xl">
             Every device.
             <br />
             Verified. Always.
@@ -69,7 +69,7 @@ export default function HeroSection({
 
           <div className="relative min-h-[72px]">
             <p
-              className={`absolute inset-x-0 text-center text-lg text-white/55 transition-opacity duration-700 ease-out ${
+              className={`absolute inset-x-0 text-center text-xl text-white/55 transition-opacity duration-700 ease-out ${
                 breakTriggered ? "opacity-0 delay-[1800ms]" : "opacity-100"
               }`}
             >
@@ -81,8 +81,8 @@ export default function HeroSection({
                 showPostBreak ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
               }`}
             >
-              <p className="text-lg font-bold text-[#D4A791]">The record broke.</p>
-              <p className="mt-1 text-lg italic text-white/45">
+              <p className="text-xl font-bold text-[#D4A791]">The record broke.</p>
+              <p className="mt-1 text-xl italic text-white/45">
                 Every audit downstream just became reconstruction.
               </p>
             </div>
@@ -95,7 +95,7 @@ export default function HeroSection({
           >
             <Link
               href="/demo"
-              className="inline-block rounded-full bg-[#315798] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-[#7D95E0] hover:shadow-[0_12px_32px_rgba(49,87,152,0.35)]"
+              className="inline-block rounded-full bg-[#315798] px-10 py-5 text-lg font-semibold text-white transition-all duration-300 hover:bg-[#7D95E0] hover:shadow-[0_12px_32px_rgba(49,87,152,0.35)]"
             >
               See how Avera holds the chain
             </Link>

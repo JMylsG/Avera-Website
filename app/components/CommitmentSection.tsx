@@ -35,17 +35,17 @@ export default function CommitmentSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[60vh] flex-col items-center justify-center px-6 py-24"
+      className="relative flex min-h-[50vh] flex-col items-center justify-center px-6 py-24"
       style={{ background: "#08090f", borderTop: "0.5px solid rgba(255,255,255,0.06)" }}
     >
       <div
-        className={`relative z-10 mx-auto w-full max-w-3xl text-center transition-all duration-500 ${
+        className={`relative z-10 mx-auto w-full max-w-5xl text-center transition-all duration-500 ${
           isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
         }`}
       >
         <h2
           style={{
-            fontSize: 36,
+            fontSize: "clamp(32px, 3.5vw, 56px)",
             fontWeight: 500,
             color: "#fff",
             letterSpacing: "-0.015em",
@@ -59,7 +59,7 @@ export default function CommitmentSection() {
 
         <p
           style={{
-            fontSize: 14,
+            fontSize: 16,
             color: "rgba(255,255,255,0.4)",
             marginBottom: 32,
             lineHeight: 1.6,
@@ -80,9 +80,9 @@ export default function CommitmentSection() {
             style={{
               background: "#315798",
               color: "#fff",
-              fontSize: 13,
+              fontSize: 15,
               fontWeight: 500,
-              padding: "13px 32px",
+              padding: "16px 44px",
               borderRadius: 8,
               textDecoration: "none",
               transition: "background 0.3s",

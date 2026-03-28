@@ -24,11 +24,11 @@ export default function RecognitionSection() {
       style={{
         background: "#08090f",
         borderBottom: "0.5px solid rgba(255,255,255,0.06)",
-        minHeight: 460,
+        minHeight: "clamp(520px, 60vh, 820px)",
       }}
     >
       <div
-        className="p-6 md:px-[52px] md:py-[60px]"
+        className="p-8 md:px-[72px] md:py-[80px]"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -38,13 +38,13 @@ export default function RecognitionSection() {
           transition: "opacity 0.6s ease, transform 0.6s ease",
         }}
       >
-        <p style={{ fontSize: 9, fontFamily: "monospace", letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", marginBottom: 28 }}>
-          Rec. 1.0 — The record
+        <p style={{ fontSize: 11, fontFamily: "monospace", letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", marginBottom: 28 }}>
+          Rec. 1.1 — The record
         </p>
-        <h2 style={{ fontSize: 30, fontWeight: 500, lineHeight: 1.15, letterSpacing: "-0.015em", color: "#fff", marginBottom: 14 }}>
+        <h2 style={{ fontSize: "clamp(30px, 3vw, 48px)", fontWeight: 500, lineHeight: 1.15, letterSpacing: "-0.015em", color: "#fff", marginBottom: 14 }}>
           History that<br />never resets.
         </h2>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 340 }}>
+        <p style={{ fontSize: 15, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 560 }}>
           Every device observation is recorded the moment it happens. Not at
           the next scan. Not at the next audit.{" "}
           <span style={{ color: "#D4A791" }}>
@@ -53,7 +53,7 @@ export default function RecognitionSection() {
         </p>
       </div>
       <div
-        className="p-6 md:p-[44px] md:[border-left:0.5px_solid_rgba(255,255,255,0.05)]"
+        className="p-8 md:p-[64px] md:[border-left:0.5px_solid_rgba(255,255,255,0.05)]"
         style={{
           display: "flex",
           alignItems: "center",
@@ -63,7 +63,8 @@ export default function RecognitionSection() {
           transition: "opacity 0.6s ease 0.15s",
         }}
       >
-        <svg width="320" height="190" viewBox="0 0 320 190" fill="none">
+        <div style={{ width: "100%", maxWidth: 560, aspectRatio: "320/190" }}>
+        <svg width="100%" height="100%" viewBox="0 0 320 190" fill="none">
           <line x1="30" y1="80" x2="290" y2="80" stroke="rgba(125,149,224,0.35)" strokeWidth="1"/>
           <line x1="30" y1="80" x2="240" y2="80" stroke="rgba(125,149,224,0.85)" strokeWidth="1.5" strokeDasharray="4 3">
             <animate attributeName="stroke-dashoffset" values="0;-28" dur="1.8s" repeatCount="indefinite"/>
@@ -94,6 +95,7 @@ export default function RecognitionSection() {
           <line x1="220" y1="85" x2="252" y2="98" stroke="rgba(255,255,255,0.22)" strokeWidth="0.5"/>
           <text x="160" y="152" fill="rgba(255,255,255,0.25)" fontSize="8" fontFamily="monospace" textAnchor="middle" letterSpacing="2">APPEND · ONLY · IMMUTABLE</text>
         </svg>
+        </div>
       </div>
     </section>
   );

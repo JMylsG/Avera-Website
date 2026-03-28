@@ -97,27 +97,35 @@ export default function Home() {
           <HeroSection onBreakTrigger={() => {}} />
         </section>
 
-        <section className="relative isolate">
+        <section
+          className="relative isolate"
+          style={{ background: "#08090f" }}
+        >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_68%_34%_at_50%_50%,rgba(49,87,152,0.05),transparent_70%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-[#08090f]/58" />
           <RecognitionSection />
         </section>
 
-        <section className="relative isolate">
+        <section
+          className="relative isolate"
+          style={{ background: "#08090f" }}
+        >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_66%_34%_at_50%_54%,rgba(49,87,152,0.07),transparent_72%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#08090f]/60 via-[#08090f]/38 to-[#08090f]/48" />
           <DifferentiationSection />
         </section>
 
-        <section className="relative isolate">
+        <section
+          className="relative isolate"
+          style={{ background: "#08090f" }}
+        >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_62%_30%_at_50%_56%,rgba(49,87,152,0.08),transparent_68%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#08090f]/40 via-[#08090f]/20 to-[#08090f]/44" />
           <ProofSection />
         </section>
 
-        <section className="relative isolate">
+        <section
+          className="relative isolate"
+          style={{ background: "#08090f" }}
+        >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_74%_34%_at_50%_58%,rgba(49,87,152,0.09),transparent_72%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#08090f]/40 via-[#08090f]/60 to-[#08090f]/82" />
           <CommitmentSection />
         </section>
       </main>
