@@ -95,7 +95,7 @@ export default function HeroSection({
           >
             <Link
               href="/demo"
-              className="inline-block rounded-full bg-[#315798] px-10 py-5 text-lg font-semibold text-white transition-all duration-300 hover:bg-[#7D95E0] hover:shadow-[0_12px_32px_rgba(49,87,152,0.35)]"
+              className="inline-block rounded-full bg-[#315798] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-[#7D95E0] hover:shadow-[0_12px_32px_rgba(49,87,152,0.35)]"
             >
               See how Avera holds the chain
             </Link>
