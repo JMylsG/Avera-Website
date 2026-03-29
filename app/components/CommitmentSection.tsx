@@ -45,7 +45,7 @@ export default function CommitmentSection() {
       >
         <h2
           style={{
-            fontSize: "clamp(32px, 3.5vw, 56px)",
+            fontSize: "clamp(26px, 2.8vw, 42px)",
             fontWeight: 500,
             color: "#fff",
             letterSpacing: "-0.015em",
@@ -59,7 +59,7 @@ export default function CommitmentSection() {
 
         <p
           style={{
-            fontSize: 16,
+            fontSize: 13,
             color: "rgba(255,255,255,0.4)",
             marginBottom: 32,
             lineHeight: 1.6,
